@@ -4,7 +4,7 @@ import { useProducts, useProduct } from "@/hooks/useProducts";
 import ProductGrid from "@/components/home/ProductGrid";
 
 interface ProductDetailProps {
-  onAddToCart: (product: typeof products[0], size: string) => void;
+  onAddToCart: (product: Product, size: string) => void;
 }
 
 /* Accordion item */
