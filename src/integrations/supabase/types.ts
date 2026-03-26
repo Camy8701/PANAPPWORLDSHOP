@@ -14,7 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      collections: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          collection_id: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          images: string[]
+          in_stock: boolean
+          name: string
+          price: number
+          sizes: string[]
+          slug: string
+        }
+        Insert: {
+          collection_id?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          images?: string[]
+          in_stock?: boolean
+          name: string
+          price?: number
+          sizes?: string[]
+          slug: string
+        }
+        Update: {
+          collection_id?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          images?: string[]
+          in_stock?: boolean
+          name?: string
+          price?: number
+          sizes?: string[]
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
