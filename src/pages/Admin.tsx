@@ -311,7 +311,7 @@ const Admin = () => {
                 <div>
                   <span className="text-sm font-semibold">{p.name}</span>
                   <span className="ml-3 text-[10px] text-muted-foreground uppercase tracking-fashion">
-                    ${p.price} · {p.in_stock ? "In Stock" : "Out of Stock"}
+                    {formatPrice(p.price)} · {p.in_stock ? "In Stock" : "Out of Stock"}
                   </span>
                 </div>
                 <div className="flex gap-2">
