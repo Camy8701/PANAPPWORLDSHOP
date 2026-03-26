@@ -82,7 +82,7 @@ const CartSidebar = ({
                     </button>
                   </div>
                   <p className="text-[10px] font-semibold">
-                    ${(item.product.price * item.quantity).toFixed(2)}
+                    {formatPrice(item.product.price * item.quantity)}
                   </p>
                 </div>
               </div>
