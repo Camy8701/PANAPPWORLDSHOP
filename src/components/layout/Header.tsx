@@ -54,17 +54,18 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
           </Link>
 
           {/* Right: Nav links in a row */}
-          <div className="flex items-center">
+          {/* Right: Nav links in a horizontal row */}
+          <div className="flex items-center gap-4">
             <nav className="hidden md:flex items-center gap-4">
               <Link
                 to="/collection"
-                className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                className="text-[10px] font-semibold uppercase tracking-fashion"
               >
                 Collection
               </Link>
               <Link
                 to="/lookbook"
-                className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                className="text-[10px] font-semibold uppercase tracking-fashion"
               >
                 Lookbook
               </Link>
@@ -72,21 +73,21 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
                 <>
                   <Link
                     to="/account"
-                    className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                    className="text-[10px] font-semibold uppercase tracking-fashion"
                   >
                     Account
                   </Link>
                   {isAdmin && (
                     <Link
                       to="/admin"
-                      className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                      className="text-[10px] font-semibold uppercase tracking-fashion"
                     >
                       Admin
                     </Link>
                   )}
                   <button
                     onClick={() => signOut()}
-                    className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                    className="text-[10px] font-semibold uppercase tracking-fashion"
                   >
                     Sign Out
                   </button>
@@ -94,12 +95,18 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
               ) : (
                 <Link
                   to="/auth"
-                  className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                  className="text-[10px] font-semibold uppercase tracking-fashion"
                 >
                   Account
                 </Link>
               )}
             </nav>
+            <button
+              onClick={onCartClick}
+              className="text-[10px] font-semibold uppercase tracking-fashion"
+            >
+              Cart ({cartCount})
+            </button>
           </div>
         </div>
       </header>
