@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface HeaderProps {
   cartCount: number;
@@ -9,6 +10,7 @@ interface HeaderProps {
 
 const Header = ({ cartCount, onCartClick }: HeaderProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, isAdmin, signOut } = useAuth();
 
   return (
     <>
@@ -72,6 +74,31 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
               >
                 Lookbook
               </Link>
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => signOut()}
+                    className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                >
+                  Account
+                </Link>
+              )}
             </nav>
           </div>
         </div>
@@ -110,6 +137,36 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
             >
               Cart ({cartCount})
             </button>
+            {user ? (
+              <>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-2xl font-bold uppercase tracking-wide-fashion"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    signOut();
+                  }}
+                  className="text-2xl font-bold uppercase tracking-wide-fashion"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setMobileOpen(false)}
+                className="text-2xl font-bold uppercase tracking-wide-fashion"
+              >
+                Account
+              </Link>
+            )}
           </nav>
         </div>
       )}
