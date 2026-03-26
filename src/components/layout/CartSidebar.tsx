@@ -1,4 +1,5 @@
 import { X, Minus, Plus } from "lucide-react";
+import { formatPrice } from "@/lib/formatPrice";
 import { CartItem } from "@/types";
 import { Link } from "react-router-dom";
 
@@ -82,7 +83,7 @@ const CartSidebar = ({
                     </button>
                   </div>
                   <p className="text-[10px] font-semibold">
-                    ${(item.product.price * item.quantity).toFixed(2)}
+                    {formatPrice(item.product.price * item.quantity)}
                   </p>
                 </div>
               </div>
@@ -100,7 +101,7 @@ const CartSidebar = ({
           <div className="p-5 border-t border-border space-y-3">
             <div className="flex justify-between text-[11px] font-semibold uppercase tracking-fashion">
               <span>Subtotal</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
             <Link
               to="/checkout"

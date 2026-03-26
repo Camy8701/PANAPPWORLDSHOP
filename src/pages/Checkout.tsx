@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { formatPrice } from "@/lib/formatPrice";
 import { CartItem } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -281,7 +282,7 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
                   <span>
                     {item.product.name} × {item.quantity} ({item.size})
                   </span>
-                  <span>${(item.product.price * item.quantity).toFixed(2)}</span>
+                  <span>{formatPrice(item.product.price * item.quantity)}</span>
                 </div>
               ))}
               {items.length === 0 && (
@@ -292,7 +293,7 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
             </div>
             <div className="border-t border-border pt-4 flex justify-between font-semibold text-sm uppercase tracking-fashion">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
           </div>
         </div>

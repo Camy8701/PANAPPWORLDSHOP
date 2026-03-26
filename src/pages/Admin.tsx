@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { formatPrice } from "@/lib/formatPrice";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -311,7 +312,7 @@ const Admin = () => {
                 <div>
                   <span className="text-sm font-semibold">{p.name}</span>
                   <span className="ml-3 text-[10px] text-muted-foreground uppercase tracking-fashion">
-                    ${p.price} · {p.in_stock ? "In Stock" : "Out of Stock"}
+                    {formatPrice(p.price)} · {p.in_stock ? "In Stock" : "Out of Stock"}
                   </span>
                 </div>
                 <div className="flex gap-2">
@@ -346,7 +347,7 @@ const Admin = () => {
                 <span className="text-sm font-semibold">{o.full_name}</span>
                 <span className="ml-2 text-[10px] text-muted-foreground">{o.email}</span>
                 <span className="ml-3 text-[10px] text-muted-foreground uppercase tracking-fashion">
-                  ${o.total} · {new Date(o.created_at).toLocaleDateString()}
+                  {formatPrice(o.total)} · {new Date(o.created_at).toLocaleDateString()}
                 </span>
               </div>
               <div className="flex items-center gap-2">

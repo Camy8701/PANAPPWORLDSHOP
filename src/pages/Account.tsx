@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import { formatPrice } from "@/lib/formatPrice";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
@@ -113,7 +114,7 @@ const Account = () => {
                   <p className="text-[10px] uppercase tracking-fashion text-muted-foreground">
                     Total
                   </p>
-                  <p className="text-sm mt-0.5 font-semibold">${order.total}</p>
+                  <p className="text-sm mt-0.5 font-semibold">{formatPrice(order.total)}</p>
                 </div>
               </div>
 
@@ -123,7 +124,7 @@ const Account = () => {
                     <span>
                       {item.product_name} — {item.size} × {item.quantity}
                     </span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>{formatPrice(item.price * item.quantity)}</span>
                   </div>
                 ))}
               </div>
