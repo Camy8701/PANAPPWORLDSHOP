@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
       const products = json.data ?? json;
       if (!Array.isArray(products) || products.length === 0) break;
       allProducts = allProducts.concat(products);
-      if (products.length < 100) break;
+      if (products.length < 50) break;
       page++;
     }
 
