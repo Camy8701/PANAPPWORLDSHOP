@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { formatPrice } from "@/lib/formatPrice";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useProducts, useProduct } from "@/hooks/useProducts";
 import { Product } from "@/types";

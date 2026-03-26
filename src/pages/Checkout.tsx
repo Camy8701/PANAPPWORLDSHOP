@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { formatPrice } from "@/lib/formatPrice";
 import { CartItem } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";

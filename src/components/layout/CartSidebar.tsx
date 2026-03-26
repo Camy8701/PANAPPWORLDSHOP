@@ -1,4 +1,5 @@
 import { X, Minus, Plus } from "lucide-react";
+import { formatPrice } from "@/lib/formatPrice";
 import { CartItem } from "@/types";
 import { Link } from "react-router-dom";
 

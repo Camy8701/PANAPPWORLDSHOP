@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import { formatPrice } from "@/lib/formatPrice";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
