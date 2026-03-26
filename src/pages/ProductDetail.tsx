@@ -154,7 +154,8 @@ function useImageScroller(imageCount: number) {
 
 const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
   const { slug } = useParams();
-  const product = products.find((p) => p.slug === slug);
+  const { data: product, isLoading: productLoading } = useProduct(slug);
+  const { data: allProducts = [] } = useProducts();
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
   const centerRef = useRef<HTMLDivElement>(null);
