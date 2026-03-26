@@ -76,6 +76,12 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
               </Link>
               {user ? (
                 <>
+                  <Link
+                    to="/account"
+                    className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                  >
+                    Account
+                  </Link>
                   {isAdmin && (
                     <Link
                       to="/admin"
@@ -139,6 +145,13 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
             </button>
             {user ? (
               <>
+                <Link
+                  to="/account"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-2xl font-bold uppercase tracking-wide-fashion"
+                >
+                  Account
+                </Link>
                 {isAdmin && (
                   <Link
                     to="/admin"

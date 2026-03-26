@@ -15,6 +15,8 @@ import ProductDetail from "./pages/ProductDetail";
 import Lookbook from "./pages/Lookbook";
 import Checkout from "./pages/Checkout";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
+import Account from "./pages/Account";
 import Admin from "./pages/Admin";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ShippingReturns from "./pages/ShippingReturns";
@@ -59,6 +61,8 @@ const AppContent = () => {
         <Route path="/lookbook" element={<Lookbook />} />
         <Route path="/checkout" element={<Checkout items={cart.items} total={cart.total} onOrderPlaced={clearCart} />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/shipping-and-returns" element={<ShippingReturns />} />
