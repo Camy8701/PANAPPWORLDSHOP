@@ -281,7 +281,7 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
                   <span>
                     {item.product.name} × {item.quantity} ({item.size})
                   </span>
-                  <span>${(item.product.price * item.quantity).toFixed(2)}</span>
+                  <span>{formatPrice(item.product.price * item.quantity)}</span>
                 </div>
               ))}
               {items.length === 0 && (
