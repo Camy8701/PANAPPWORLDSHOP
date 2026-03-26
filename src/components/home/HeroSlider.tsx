@@ -1,8 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { heroSlides, products } from "@/data/placeholder";
+import { heroSlides } from "@/data/placeholder";
+import { Product } from "@/types";
 import { Link } from "react-router-dom";
 
-const HeroSlider = () => {
+interface HeroSliderProps {
+  products: Product[];
+}
+
+const HeroSlider = ({ products }: HeroSliderProps) => {
   const [current, setCurrent] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
