@@ -275,7 +275,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
         {/* CENTER COLUMN — JS-driven transform image scroller */}
         <div className="product-layout__center" ref={centerRef}>
-          <ul
+          <div
             className="product-image__wrapper"
             style={{
               position: "relative",
