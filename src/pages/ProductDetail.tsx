@@ -285,7 +285,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
             }}
           >
             {allImages.map((img, i) => (
-              <li
+              <div
                 key={i}
                 ref={(el) => { scroller.cardRefs.current[i] = el; }}
                 className="product-image-card"
