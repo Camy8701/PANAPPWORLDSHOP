@@ -96,8 +96,8 @@ Deno.serve(async (req) => {
           }));
 
         // Price from first enabled variant (Printify prices are in cents)
-        const price =
-          (p.variants ?? []).find((v: any) => v.is_enabled)?.price / 100 ?? 0;
+        const firstEnabledVariant = (p.variants ?? []).find((v: any) => v.is_enabled);
+        const price = firstEnabledVariant ? firstEnabledVariant.price / 100 : 0;
 
         // Check stock
         const inStock = (p.variants ?? []).some(
