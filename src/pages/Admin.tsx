@@ -197,12 +197,33 @@ const Admin = () => {
       {/* Products Tab */}
       {tab === "products" && (
         <div>
-          <button
-            onClick={openNew}
-            className="mb-6 px-4 py-2 text-[10px] font-semibold uppercase tracking-fashion bg-foreground text-background hover:opacity-80 transition-opacity"
-          >
-            + Add Product
-          </button>
+          <div className="flex gap-3 mb-6">
+            <button
+              onClick={openNew}
+              className="px-4 py-2 text-[10px] font-semibold uppercase tracking-fashion bg-foreground text-background hover:opacity-80 transition-opacity"
+            >
+              + Add Product
+            </button>
+            <button
+              onClick={async () => {
+                toast.info("Syncing products from Printify...");
+                try {
+                  const { data, error } = await supabase.functions.invoke("sync-printify");
+                  if (error) throw error;
+                  toast.success(`Synced ${data?.synced ?? 0} products from Printify`);
+                  if (data?.errors?.length > 0) {
+                    toast.warning(`${data.errors.length} products had issues`);
+                  }
+                  fetchProducts();
+                } catch (e: any) {
+                  toast.error(e.message || "Sync failed");
+                }
+              }}
+              className="px-4 py-2 text-[10px] font-semibold uppercase tracking-fashion border border-border hover:bg-secondary transition-colors"
+            >
+              ↻ Sync from Printify
+            </button>
+          </div>
 
           {showForm && (
             <div className="border border-border p-6 mb-6 space-y-4">
