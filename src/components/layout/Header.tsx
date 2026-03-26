@@ -145,6 +145,13 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
             </button>
             {user ? (
               <>
+                <Link
+                  to="/account"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-2xl font-bold uppercase tracking-wide-fashion"
+                >
+                  Account
+                </Link>
                 {isAdmin && (
                   <Link
                     to="/admin"
