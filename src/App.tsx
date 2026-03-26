@@ -60,6 +60,8 @@ const AppContent = () => {
         <Route path="/lookbook" element={<Lookbook />} />
         <Route path="/checkout" element={<Checkout items={cart.items} total={cart.total} onOrderPlaced={clearCart} />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/shipping-and-returns" element={<ShippingReturns />} />
