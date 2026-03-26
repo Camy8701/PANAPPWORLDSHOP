@@ -1,9 +1,12 @@
 import { useState } from "react";
 import ProductGrid from "@/components/home/ProductGrid";
-import { products, collections } from "@/data/placeholder";
+import { useProducts } from "@/hooks/useProducts";
+import { useCollections } from "@/hooks/useCollections";
 
 const Collection = () => {
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
+  const { data: products = [] } = useProducts();
+  const { data: collections = [] } = useCollections();
 
   const filtered = activeCollection
     ? products.filter((p) => p.collection_id === activeCollection)

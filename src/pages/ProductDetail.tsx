@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { products } from "@/data/placeholder";
+import { useProducts, useProduct } from "@/hooks/useProducts";
+import { Product } from "@/types";
 import ProductGrid from "@/components/home/ProductGrid";
 
 interface ProductDetailProps {
-  onAddToCart: (product: typeof products[0], size: string) => void;
+  onAddToCart: (product: Product, size: string) => void;
 }
 
 /* Accordion item */
@@ -154,7 +155,8 @@ function useImageScroller(imageCount: number) {
 
 const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
   const { slug } = useParams();
-  const product = products.find((p) => p.slug === slug);
+  const { data: product, isLoading: productLoading } = useProduct(slug);
+  const { data: allProducts = [] } = useProducts();
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
   const centerRef = useRef<HTMLDivElement>(null);
@@ -219,6 +221,10 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     };
   }, []);
 
+  if (productLoading) {
+    return <main className="pt-24 px-6 text-center" />;
+  }
+
   if (!product) {
     return (
       <main className="pt-24 px-6 text-center">
@@ -231,7 +237,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
   const allImages = product.images;
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
-  const related = products.filter((p) => p.id !== product.id).slice(0, 4);
+  const related = allProducts.filter((p) => p.id !== product.id).slice(0, 4);
 
   return (
     <main
@@ -275,7 +281,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
         {/* CENTER COLUMN — JS-driven transform image scroller */}
         <div className="product-layout__center" ref={centerRef}>
-          <ul
+          <div
             className="product-image__wrapper"
             style={{
               position: "relative",
@@ -285,7 +291,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
             }}
           >
             {allImages.map((img, i) => (
-              <li
+              <div
                 key={i}
                 ref={(el) => { scroller.cardRefs.current[i] = el; }}
                 className="product-image-card"
@@ -306,9 +312,9 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
                     style={{ display: "block" }}
                   />
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
 
           {/* Thumbnail strip — sticky at bottom */}
           {allImages.length > 1 && (
