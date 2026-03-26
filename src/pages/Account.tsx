@@ -113,7 +113,7 @@ const Account = () => {
                   <p className="text-[10px] uppercase tracking-fashion text-muted-foreground">
                     Total
                   </p>
-                  <p className="text-sm mt-0.5 font-semibold">${order.total}</p>
+                  <p className="text-sm mt-0.5 font-semibold">{formatPrice(order.total)}</p>
                 </div>
               </div>
 
