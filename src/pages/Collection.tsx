@@ -10,7 +10,7 @@ const Collection = () => {
     : products;
 
   return (
-    <main className="pt-24">
+    <main style={{ paddingTop: "16.4rem" }}>
       {/* Filter tabs */}
       <div className="flex items-center justify-center gap-3 px-6 mb-6 flex-wrap">
         <button
@@ -18,17 +18,19 @@ const Collection = () => {
           className={`text-[10px] font-semibold uppercase tracking-fashion transition-opacity ${
             !activeCollection ? "opacity-100" : "opacity-40 hover:opacity-70"
           }`}
+          style={{ transition: "color 0.2s ease, opacity 0.2s ease" }}
         >
           All
         </button>
         {collections.filter(c => c.slug !== 'all').map((col) => (
           <span key={col.id} className="flex items-center gap-3">
-            <span className="text-[6px] opacity-30">◆</span>
+            <span className="text-[6px] opacity-30">&#9670;</span>
             <button
               onClick={() => setActiveCollection(col.id)}
               className={`text-[10px] font-semibold uppercase tracking-fashion transition-opacity ${
                 activeCollection === col.id ? "opacity-100" : "opacity-40 hover:opacity-70"
               }`}
+              style={{ transition: "color 0.2s ease, opacity 0.2s ease" }}
             >
               {col.name}
             </button>

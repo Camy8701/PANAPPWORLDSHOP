@@ -29,22 +29,19 @@ const ProductGrid = ({ products }: ProductGridProps) => {
   }, [products]);
 
   return (
-    <section className="px-0">
-      <div
-        ref={gridRef}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        style={{ gap: "1px" }}
-      >
+    <section className="product-grid-section">
+      <div ref={gridRef} className="product-grid">
         {products.map((product, i) => (
           <div
             key={product.id}
             data-index={i}
-            className={`transition-all duration-700 ${
-              visible.has(i)
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
-            style={{ transitionDelay: `${i * 80}ms` }}
+            className="product-grid-item"
+            style={{
+              opacity: visible.has(i) ? 1 : 0,
+              transform: visible.has(i) ? "translate3d(0, 0, 0)" : "translate3d(0, 80px, 0)",
+              transition: `opacity 0.6s cubic-bezier(0.39, 0.575, 0.565, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1)`,
+              transitionDelay: `${i * 100}ms`,
+            }}
           >
             <ProductCard product={product} />
           </div>

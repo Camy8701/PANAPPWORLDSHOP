@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,6 +44,8 @@
     --sidebar-accent-foreground: 0 0% 10%;
     --sidebar-border: 0 0% 91%;
     --sidebar-ring: 0 0% 0%;
+
+    --extra-height: 8.8rem;
   }
 
   .dark {
@@ -74,9 +76,14 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
   }
 
   ::selection {
@@ -90,6 +97,33 @@
     mix-blend-mode: difference;
     color: white;
   }
+
+  /* Page transition animations matching original cubic-bezier curves */
+  .page-enter {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0);
+  }
+  .page-enter-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity 0.6s cubic-bezier(0.39, 0.575, 0.565, 1),
+      transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  /* Original gradient button style */
+  .btn-gradient {
+    background: linear-gradient(90deg, #222, #0d0c0c 50%, #222);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.2s ease;
+  }
+  .btn-gradient:hover {
+    background: #900;
+  }
 }
 
 @layer utilities {
@@ -99,5 +133,177 @@
 
   .tracking-wide-fashion {
     letter-spacing: 0.15em;
+  }
+
+  .easing-smooth {
+    transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+  }
+
+  .easing-spring {
+    transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+/* Product grid layout — matching original ORIGINALSIN spacing */
+.product-grid-section {
+  padding: 5rem 1rem 3rem;
+}
+@media (min-width: 1024px) {
+  .product-grid-section {
+    padding: 3rem 1rem 3rem;
+  }
+}
+
+.product-grid {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5rem;
+  padding: 0 0;
+}
+@media (min-width: 1024px) {
+  .product-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+    row-gap: 3rem;
+  }
+}
+
+.product-grid-item {
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .product-grid-item {
+    flex: 0 0 calc(33.333% - 0.667rem);
+    max-width: calc(33.333% - 0.667rem);
+  }
+}
+
+/* ===== PRODUCT DETAIL — 3-Column Layout ===== */
+
+.product-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  position: relative;
+}
+
+/* Mobile: center first, then right, then left */
+.product-layout__left { order: 2; }
+.product-layout__center { order: 0; }
+.product-layout__right { order: 1; }
+
+.product-layout__left {
+  padding: 2rem 1rem;
+}
+
+.product-layout__left-inner {
+  width: 100%;
+}
+
+.product-layout__center {
+  background-color: #fff;
+  touch-action: pan-y;
+  user-select: none;
+  position: relative;
+}
+
+.product-layout__center-images {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-scrollviewer {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+  z-index: 5;
+}
+
+.product-layout__right {
+  padding: 2rem 1rem;
+}
+
+.product-layout__right-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3rem;
+  width: 100%;
+}
+
+.product-info-box {
+  width: 100%;
+}
+
+.feature-text-area {
+  width: 100%;
+  max-width: 29.6rem;
+}
+
+/* Desktop: 3 columns side by side */
+@media (min-width: 1024px) {
+  .product-layout {
+    flex-direction: row;
+  }
+
+  .product-layout__left {
+    order: 0;
+    flex: 1;
+    height: 100svh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    padding: 1rem;
+  }
+
+  .product-layout__left-inner {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  .product-layout__center {
+    order: 1;
+    flex: 1.7;
+    height: 100svh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .product-layout__right {
+    order: 2;
+    flex: 1;
+    height: 100svh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    padding: 0 1rem;
+  }
+
+  .product-layout__right-inner {
+    height: 100%;
+    padding-bottom: 5rem;
+    padding-top: 5rem;
+    position: relative;
+  }
+
+  .product-info-box {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    padding: 0 1rem;
+  }
+
+  .feature-text-area {
+    margin-top: auto;
   }
 }

@@ -20,10 +20,10 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
               to="/"
               className="text-[11px] font-semibold uppercase tracking-fashion leading-tight block"
             >
-              PANAPPWORLD
+              PANAPP
             </Link>
             <p className="text-[9px] uppercase tracking-fashion mt-0.5 opacity-80">
-              Chapter 1: PANAPPWORLD
+              It's Time For Africa
             </p>
           </div>
 
@@ -37,16 +37,18 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
             </button>
           </div>
 
-          {/* Center: Logo text */}
+          {/* Center: Logo image */}
           <Link
             to="/"
-            className="absolute left-1/2 -translate-x-1/2 top-2 md:top-3"
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{ top: "-140px" }}
           >
-            <span className="text-[28px] md:text-[40px] font-black uppercase tracking-[0.02em] leading-none"
-              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 900 }}
-            >
-              PANAPPWORLD
-            </span>
+            <img
+              src="/panapp-logo.png"
+              alt="PANAPP"
+              className="w-[280px] md:w-[420px] h-auto object-contain pointer-events-none"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
           </Link>
 
           {/* Right: Cart + Nav */}
