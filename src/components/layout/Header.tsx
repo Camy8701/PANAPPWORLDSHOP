@@ -42,13 +42,13 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
           {/* Center: Logo image */}
           <Link
             to="/"
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{ top: "-140px" }}
+            className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+            style={{ top: "-182px" }}
           >
             <img
               src="/panapp-logo.png"
               alt="PANAPP"
-              className="w-[280px] md:w-[420px] h-auto object-contain pointer-events-none"
+              className="w-[280px] md:w-[420px] h-auto object-contain pointer-events-auto"
               style={{ filter: "brightness(0) invert(1)" }}
             />
           </Link>
