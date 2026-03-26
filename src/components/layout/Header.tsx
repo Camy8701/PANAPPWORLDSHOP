@@ -14,7 +14,7 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 header-blend">
+      <header className="fixed top-0 left-0 right-0 z-50 header-blend overflow-hidden">
         <div className="flex items-start justify-between px-2 py-2 md:px-3 md:py-3">
           {/* Left: Brand name + subtitle (desktop) */}
           <div className="hidden md:block">
@@ -43,7 +43,7 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
           <Link
             to="/"
             className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-            style={{ top: "-182px" }}
+            style={{ top: "-240px" }}
           >
             <img
               src="/panapp-logo.png"
