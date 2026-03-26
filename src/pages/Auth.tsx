@@ -38,7 +38,7 @@ const Auth = () => {
   };
 
   return (
-    <main className="pt-28 px-6 max-w-md mx-auto pb-20">
+    <main className="pt-52 px-6 max-w-md mx-auto pb-20">
       <h1 className="font-display text-4xl tracking-wide-fashion mb-12 text-center">
         {mode === "login" ? "SIGN IN" : "CREATE ACCOUNT"}
       </h1>
