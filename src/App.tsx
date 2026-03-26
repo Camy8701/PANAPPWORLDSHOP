@@ -7,12 +7,15 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartSidebar from "@/components/layout/CartSidebar";
 import { useCart } from "@/hooks/useCart";
+import { AuthProvider } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import Collection from "./pages/Collection";
 import ProductDetail from "./pages/ProductDetail";
 import Lookbook from "./pages/Lookbook";
 import Checkout from "./pages/Checkout";
+import Auth from "./pages/Auth";
+import Admin from "./pages/Admin";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ShippingReturns from "./pages/ShippingReturns";
 import TermsOfService from "./pages/TermsOfService";
@@ -32,6 +35,11 @@ const ScrollToTop = () => {
 const AppContent = () => {
   const cart = useCart();
 
+  const clearCart = () => {
+    // Clear all items after order
+    cart.items.forEach((item) => cart.removeItem(item.id));
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -49,7 +57,9 @@ const AppContent = () => {
         <Route path="/collection" element={<Collection />} />
         <Route path="/product/:slug" element={<ProductDetail onAddToCart={cart.addItem} />} />
         <Route path="/lookbook" element={<Lookbook />} />
-        <Route path="/checkout" element={<Checkout items={cart.items} total={cart.total} />} />
+        <Route path="/checkout" element={<Checkout items={cart.items} total={cart.total} onOrderPlaced={clearCart} />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/shipping-and-returns" element={<ShippingReturns />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
@@ -63,11 +73,13 @@ const AppContent = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
