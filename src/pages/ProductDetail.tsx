@@ -131,7 +131,7 @@ function useImageScroller(imageCount: number) {
     return () => cancelAnimationFrame(rafId.current);
   }, [animate]);
 
-  // Wheel handler — prevent page scroll, drive image transforms
+  // Wheel handler — prevent page scroll only when hovering center column
   const onWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY;
@@ -188,38 +188,26 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     return () => window.removeEventListener("resize", onResize);
   }, [scroller]);
 
-  // Attach wheel listener to whole page (prevent default scroll)
+  // Attach wheel listener to center column only (not whole page)
   useEffect(() => {
+    const el = centerRef.current;
+    if (!el) return;
     const handler = scroller.onWheel;
-    // Only intercept wheel on desktop
     const mq = window.matchMedia("(min-width: 1024px)");
-    if (mq.matches) {
-      window.addEventListener("wheel", handler, { passive: false });
-    }
-    const onChange = () => {
+    const attach = () => {
       if (mq.matches) {
-        window.addEventListener("wheel", handler, { passive: false });
+        el.addEventListener("wheel", handler, { passive: false });
       } else {
-        window.removeEventListener("wheel", handler);
+        el.removeEventListener("wheel", handler);
       }
     };
-    mq.addEventListener("change", onChange);
+    attach();
+    mq.addEventListener("change", attach);
     return () => {
-      window.removeEventListener("wheel", handler);
-      mq.removeEventListener("change", onChange);
+      el.removeEventListener("wheel", handler);
+      mq.removeEventListener("change", attach);
     };
   }, [scroller.onWheel]);
-
-  // Prevent body scroll on desktop product page
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    if (mq.matches) {
-      document.body.style.overflow = "hidden";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
 
   if (productLoading) {
     return <main className="pt-24 px-6 text-center" />;
@@ -236,7 +224,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
   }
 
   const allImages = product.images;
-  const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+  const sizes = product.sizes?.length > 0 ? product.sizes : ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const related = allProducts.filter((p) => p.id !== product.id).slice(0, 4);
 
   return (
