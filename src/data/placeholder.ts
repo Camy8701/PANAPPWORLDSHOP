@@ -103,21 +103,21 @@ export const heroSlides = [
   {
     id: 1,
     image: `${CDN}/tree-of-death-carousel.jpg`,
-    productId: "2",
+    productId: "tree-of-death-knit",
   },
   {
     id: 2,
     image: `${CDN}/causality-knit-front.jpg`,
-    productId: "1",
+    productId: "causality-knit",
   },
   {
     id: 3,
     image: `${CDN}/great-red-dragon-front.jpg`,
-    productId: "3",
+    productId: "great-red-dragon-knit",
   },
   {
     id: 4,
     image: `${CDN}/tree-of-death-front.jpg`,
-    productId: "2",
+    productId: "tree-of-death-knit",
   },
 ];
