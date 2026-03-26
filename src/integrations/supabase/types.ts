@@ -142,6 +142,8 @@ export type Database = {
           in_stock: boolean
           name: string
           price: number
+          printify_id: string | null
+          printify_variant_mapping: Json | null
           sizes: string[]
           slug: string
         }
@@ -155,6 +157,8 @@ export type Database = {
           in_stock?: boolean
           name: string
           price?: number
+          printify_id?: string | null
+          printify_variant_mapping?: Json | null
           sizes?: string[]
           slug: string
         }
@@ -168,6 +172,8 @@ export type Database = {
           in_stock?: boolean
           name?: string
           price?: number
+          printify_id?: string | null
+          printify_variant_mapping?: Json | null
           sizes?: string[]
           slug?: string
         }
