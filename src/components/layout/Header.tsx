@@ -53,15 +53,9 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
             />
           </Link>
 
-          {/* Right: Cart + Nav */}
-          <div className="flex flex-col items-end">
-            <button
-              onClick={onCartClick}
-              className="text-[11px] font-semibold uppercase tracking-fashion"
-            >
-              Cart ({cartCount})
-            </button>
-            <nav className="hidden md:flex flex-col items-end gap-0 mt-1">
+          {/* Right: Nav links in a row */}
+          <div className="flex items-center">
+            <nav className="hidden md:flex items-center gap-4">
               <Link
                 to="/collection"
                 className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
