@@ -292,7 +292,7 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
             </div>
             <div className="border-t border-border pt-4 flex justify-between font-semibold text-sm uppercase tracking-fashion">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
           </div>
         </div>

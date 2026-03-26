@@ -100,7 +100,7 @@ const CartSidebar = ({
           <div className="p-5 border-t border-border space-y-3">
             <div className="flex justify-between text-[11px] font-semibold uppercase tracking-fashion">
               <span>Subtotal</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
             <Link
               to="/checkout"

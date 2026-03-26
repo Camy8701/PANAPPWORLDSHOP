@@ -346,7 +346,7 @@ const Admin = () => {
                 <span className="text-sm font-semibold">{o.full_name}</span>
                 <span className="ml-2 text-[10px] text-muted-foreground">{o.email}</span>
                 <span className="ml-3 text-[10px] text-muted-foreground uppercase tracking-fashion">
-                  ${o.total} · {new Date(o.created_at).toLocaleDateString()}
+                  {formatPrice(o.total)} · {new Date(o.created_at).toLocaleDateString()}
                 </span>
               </div>
               <div className="flex items-center gap-2">

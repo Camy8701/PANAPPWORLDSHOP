@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
     // Build line items from cart
     const lineItems = items.map((item: any) => ({
       price_data: {
-        currency: "usd",
+        currency: "eur",
         product_data: {
           name: item.product_name,
           ...(item.size ? { description: `Size: ${item.size}` } : {}),

@@ -70,7 +70,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {product.name}
         </h3>
         <p className="text-[11px]" style={{ marginBottom: "-0.2rem" }}>
-          ${product.price.toFixed(2)}
+          {formatPrice(product.price)}
         </p>
       </div>
     </Link>

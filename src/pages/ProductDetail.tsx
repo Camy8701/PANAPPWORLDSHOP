@@ -341,7 +341,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
                 {product.name}
               </h1>
               <p className="text-[12px] mt-3 text-center">
-                ${product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </p>
 
               {/* Size selector */}

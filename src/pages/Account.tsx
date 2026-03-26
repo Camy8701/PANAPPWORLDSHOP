@@ -123,7 +123,7 @@ const Account = () => {
                     <span>
                       {item.product_name} — {item.size} × {item.quantity}
                     </span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>{formatPrice(item.price * item.quantity)}</span>
                   </div>
                 ))}
               </div>
