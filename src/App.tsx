@@ -15,11 +15,12 @@ import ProductDetail from "./pages/ProductDetail";
 import Lookbook from "./pages/Lookbook";
 import Checkout from "./pages/Checkout";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
+import Account from "./pages/Account";
 import Admin from "./pages/Admin";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ShippingReturns from "./pages/ShippingReturns";
 import TermsOfService from "./pages/TermsOfService";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
