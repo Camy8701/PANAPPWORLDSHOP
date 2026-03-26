@@ -4,10 +4,9 @@ import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
   products: Product[];
-  title?: string;
 }
 
-const ProductGrid = ({ products, title }: ProductGridProps) => {
+const ProductGrid = ({ products }: ProductGridProps) => {
   const [visible, setVisible] = useState<Set<number>>(new Set());
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -26,24 +25,26 @@ const ProductGrid = ({ products, title }: ProductGridProps) => {
 
     const items = gridRef.current?.querySelectorAll("[data-index]");
     items?.forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, [products]);
 
   return (
-    <section className="px-6 py-20 max-w-6xl mx-auto">
-      {title && (
-        <h2 className="font-display text-4xl tracking-wide-fashion text-center mb-12">{title}</h2>
-      )}
-      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section className="px-0">
+      <div
+        ref={gridRef}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        style={{ gap: "1px" }}
+      >
         {products.map((product, i) => (
           <div
             key={product.id}
             data-index={i}
             className={`transition-all duration-700 ${
-              visible.has(i) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              visible.has(i)
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
-            style={{ transitionDelay: `${i * 100}ms` }}
+            style={{ transitionDelay: `${i * 80}ms` }}
           >
             <ProductCard product={product} />
           </div>

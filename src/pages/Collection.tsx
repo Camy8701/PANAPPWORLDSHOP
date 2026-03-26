@@ -10,24 +10,24 @@ const Collection = () => {
     : products;
 
   return (
-    <main className="pt-28">
+    <main className="pt-24">
       {/* Filter tabs */}
-      <div className="flex items-center justify-center gap-4 px-6 mb-8">
+      <div className="flex items-center justify-center gap-3 px-6 mb-6 flex-wrap">
         <button
           onClick={() => setActiveCollection(null)}
-          className={`text-xs font-semibold uppercase tracking-fashion transition-colors ${
-            !activeCollection ? "text-accent" : "text-muted-foreground hover:text-foreground"
+          className={`text-[10px] font-semibold uppercase tracking-fashion transition-opacity ${
+            !activeCollection ? "opacity-100" : "opacity-40 hover:opacity-70"
           }`}
         >
           All
         </button>
-        {collections.map((col) => (
-          <span key={col.id} className="flex items-center gap-4">
-            <span className="text-muted-foreground text-[8px]">◆</span>
+        {collections.filter(c => c.slug !== 'all').map((col) => (
+          <span key={col.id} className="flex items-center gap-3">
+            <span className="text-[6px] opacity-30">◆</span>
             <button
               onClick={() => setActiveCollection(col.id)}
-              className={`text-xs font-semibold uppercase tracking-fashion transition-colors ${
-                activeCollection === col.id ? "text-accent" : "text-muted-foreground hover:text-foreground"
+              className={`text-[10px] font-semibold uppercase tracking-fashion transition-opacity ${
+                activeCollection === col.id ? "opacity-100" : "opacity-40 hover:opacity-70"
               }`}
             >
               {col.name}

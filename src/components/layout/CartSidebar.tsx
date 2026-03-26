@@ -11,66 +11,101 @@ interface CartSidebarProps {
   onUpdateQuantity: (id: string, qty: number) => void;
 }
 
-const CartSidebar = ({ isOpen, onClose, items, total, onRemove, onUpdateQuantity }: CartSidebarProps) => {
+const CartSidebar = ({
+  isOpen,
+  onClose,
+  items,
+  total,
+  onRemove,
+  onUpdateQuantity,
+}: CartSidebarProps) => {
   if (!isOpen) return null;
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/40 z-[70]" onClick={onClose} />
-      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-background z-[80] animate-slide-in-right flex flex-col">
-        <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 className="font-display text-2xl tracking-fashion">CART</h2>
-          <button onClick={onClose} className="hover:text-accent transition-colors">
-            <X size={20} />
+      <div className="fixed inset-0 bg-black/30 z-[70]" onClick={onClose} />
+      <div className="fixed top-0 right-0 h-full w-full max-w-sm bg-background z-[80] animate-slide-in-right flex flex-col border-l border-border">
+        <div className="flex items-center justify-between p-5 border-b border-border">
+          <h2 className="text-[12px] font-bold uppercase tracking-fashion">
+            Cart
+          </h2>
+          <button
+            onClick={onClose}
+            className="hover:opacity-60 transition-opacity"
+          >
+            <X size={18} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
           {items.length === 0 && (
-            <p className="text-sm text-muted-foreground uppercase tracking-fashion text-center py-12">
+            <p className="text-[11px] text-muted-foreground uppercase tracking-fashion text-center py-16">
               Your cart is empty
             </p>
           )}
           {items.map((item) => (
-            <div key={item.id} className="flex gap-4">
-              <div className="w-20 h-24 bg-secondary flex items-center justify-center">
-                <img src={item.product.images[0]} alt={item.product.name} className="w-full h-full object-cover" />
+            <div key={item.id} className="flex gap-3">
+              <div className="w-16 h-20 bg-secondary flex-shrink-0">
+                <img
+                  src={item.product.images[0]}
+                  alt={item.product.name}
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
-              <div className="flex-1 flex flex-col justify-between">
+              <div className="flex-1 flex flex-col justify-between min-w-0">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-fashion">{item.product.name}</p>
-                  <p className="text-xs text-muted-foreground uppercase">Size: {item.size}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-fashion">
+                    {item.product.name}
+                  </p>
+                  <p className="text-[9px] text-muted-foreground uppercase">
+                    Size: {item.size}
+                  </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}>
-                      <Minus size={12} />
+                    <button
+                      onClick={() =>
+                        onUpdateQuantity(item.id, item.quantity - 1)
+                      }
+                    >
+                      <Minus size={10} />
                     </button>
-                    <span className="text-xs w-6 text-center">{item.quantity}</span>
-                    <button onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}>
-                      <Plus size={12} />
+                    <span className="text-[10px] w-4 text-center">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() =>
+                        onUpdateQuantity(item.id, item.quantity + 1)
+                      }
+                    >
+                      <Plus size={10} />
                     </button>
                   </div>
-                  <p className="text-xs font-semibold">${item.product.price * item.quantity}</p>
+                  <p className="text-[10px] font-semibold">
+                    ${(item.product.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               </div>
-              <button onClick={() => onRemove(item.id)} className="self-start hover:text-accent transition-colors">
-                <X size={14} />
+              <button
+                onClick={() => onRemove(item.id)}
+                className="self-start hover:opacity-60 transition-opacity"
+              >
+                <X size={12} />
               </button>
             </div>
           ))}
         </div>
 
         {items.length > 0 && (
-          <div className="p-6 border-t border-border space-y-4">
-            <div className="flex justify-between text-sm font-semibold uppercase tracking-fashion">
+          <div className="p-5 border-t border-border space-y-3">
+            <div className="flex justify-between text-[11px] font-semibold uppercase tracking-fashion">
               <span>Subtotal</span>
-              <span>${total}</span>
+              <span>${total.toFixed(2)}</span>
             </div>
             <Link
               to="/checkout"
               onClick={onClose}
-              className="block w-full py-3 text-center text-xs font-semibold uppercase tracking-fashion bg-foreground text-background hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="block w-full py-3 text-center text-[10px] font-semibold uppercase tracking-fashion bg-foreground text-primary-foreground hover:opacity-80 transition-opacity"
             >
               Checkout
             </Link>

@@ -1,41 +1,115 @@
 import { Product, Collection } from "@/types";
 
+const CDN = "https://cdn.shopify.com/s/files/1/0933/4436/6887/files";
+
 export const collections: Collection[] = [
-  { id: "1", name: "ESSENTIALS", slug: "essentials", description: "Core wardrobe pieces" },
-  { id: "2", name: "OUTERWEAR", slug: "outerwear", description: "Jackets and coats" },
-  { id: "3", name: "ACCESSORIES", slug: "accessories", description: "Complete the look" },
+  { id: "1", name: "ALL", slug: "all", description: "All products" },
+  { id: "2", name: "TOPS", slug: "tops", description: "Tops and knitwear" },
+  { id: "3", name: "BOTTOMS", slug: "bottoms", description: "Pants and shorts" },
 ];
 
 export const products: Product[] = [
   {
-    id: "1", name: "OVERSIZED TEE", slug: "oversized-tee", description: "Premium heavyweight cotton oversized tee with dropped shoulders and raw hem finish.",
-    price: 89, collection_id: "1", images: ["/placeholder.svg", "/placeholder.svg"], sizes: ["S", "M", "L", "XL"], in_stock: true, featured: true, created_at: "2024-01-01",
+    id: "1",
+    name: "CAUSALITY KNIT",
+    slug: "causality-knit",
+    description: "Premium heavyweight knit sweater with custom embroidered artwork and dropped shoulders.",
+    price: 180,
+    collection_id: "2",
+    images: [
+      `${CDN}/causality-knit-front.jpg`,
+      `${CDN}/causality-knit-front.jpg`,
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    in_stock: true,
+    featured: true,
+    created_at: "2024-01-01",
   },
   {
-    id: "2", name: "CARGO PANTS", slug: "cargo-pants", description: "Relaxed fit cargo pants with adjustable waist and multiple utility pockets.",
-    price: 145, collection_id: "1", images: ["/placeholder.svg", "/placeholder.svg"], sizes: ["S", "M", "L", "XL"], in_stock: true, featured: true, created_at: "2024-01-02",
+    id: "2",
+    name: "TREE OF DEATH KNIT",
+    slug: "tree-of-death-knit",
+    description: "Oversized knit sweater featuring the tree of death artwork with detailed embroidery.",
+    price: 180,
+    collection_id: "2",
+    images: [
+      `${CDN}/tree-of-death-front.jpg`,
+      `${CDN}/tree-of-death-back.jpg`,
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    in_stock: true,
+    featured: true,
+    created_at: "2024-01-02",
   },
   {
-    id: "3", name: "BOMBER JACKET", slug: "bomber-jacket", description: "Heavyweight nylon bomber with satin lining and custom PANAPPWORLD embroidery.",
-    price: 295, collection_id: "2", images: ["/placeholder.svg", "/placeholder.svg"], sizes: ["S", "M", "L", "XL"], in_stock: true, featured: true, created_at: "2024-01-03",
+    id: "3",
+    name: "GREAT RED DRAGON KNIT",
+    slug: "great-red-dragon-knit",
+    description: "Statement knit with the great red dragon design, custom artwork throughout.",
+    price: 180,
+    collection_id: "2",
+    images: [
+      `${CDN}/great-red-dragon-front.jpg`,
+      `${CDN}/great-red-dragon-back.jpg`,
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    in_stock: true,
+    featured: true,
+    created_at: "2024-01-03",
   },
   {
-    id: "4", name: "HOODIE", slug: "hoodie", description: "Brushed fleece hoodie with kangaroo pocket and embossed logo.",
-    price: 165, collection_id: "1", images: ["/placeholder.svg", "/placeholder.svg"], sizes: ["S", "M", "L", "XL"], in_stock: false, featured: false, created_at: "2024-01-04",
+    id: "4",
+    name: "ESSENTIAL TWILL PANT",
+    slug: "essential-twill-pant",
+    description: "Essential twill pant with a relaxed fit and premium construction.",
+    price: 80,
+    collection_id: "3",
+    images: [
+      `${CDN}/twill-pant-front.jpg`,
+      `${CDN}/twill-pant-front.jpg`,
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    in_stock: true,
+    featured: false,
+    created_at: "2024-01-04",
   },
   {
-    id: "5", name: "TRACK PANTS", slug: "track-pants", description: "Tapered track pants with side stripe detail and elastic cuffs.",
-    price: 120, collection_id: "1", images: ["/placeholder.svg", "/placeholder.svg"], sizes: ["S", "M", "L", "XL"], in_stock: true, featured: false, created_at: "2024-01-05",
-  },
-  {
-    id: "6", name: "CAP", slug: "cap", description: "Structured six-panel cap with embroidered logo and adjustable strap.",
-    price: 45, collection_id: "3", images: ["/placeholder.svg", "/placeholder.svg"], sizes: ["ONE SIZE"], in_stock: true, featured: true, created_at: "2024-01-06",
+    id: "5",
+    name: "ESSENTIAL MESH SHORT",
+    slug: "essential-mesh-short",
+    description: "Lightweight mesh shorts with contrast paneling and elastic waist.",
+    price: 55,
+    collection_id: "3",
+    images: [
+      `${CDN}/mesh-short-front.jpg`,
+      `${CDN}/mesh-short-front.jpg`,
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    in_stock: true,
+    featured: false,
+    created_at: "2024-01-05",
   },
 ];
 
 export const heroSlides = [
-  { id: 1, title: "NEW ARRIVALS", subtitle: "SPRING / SUMMER 2024", productId: "1" },
-  { id: 2, title: "ESSENTIALS", subtitle: "REDEFINE YOUR WARDROBE", productId: "2" },
-  { id: 3, title: "OUTERWEAR", subtitle: "LAYER UP", productId: "3" },
-  { id: 4, title: "ACCESSORIES", subtitle: "COMPLETE THE LOOK", productId: "6" },
+  {
+    id: 1,
+    image: `${CDN}/tree-of-death-carousel.jpg`,
+    productId: "2",
+  },
+  {
+    id: 2,
+    image: `${CDN}/causality-knit-front.jpg`,
+    productId: "1",
+  },
+  {
+    id: 3,
+    image: `${CDN}/great-red-dragon-front.jpg`,
+    productId: "3",
+  },
+  {
+    id: 4,
+    image: `${CDN}/tree-of-death-front.jpg`,
+    productId: "2",
+  },
 ];

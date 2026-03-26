@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 95%;
     --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
@@ -18,20 +18,20 @@
     --primary: 0 0% 0%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
+    --secondary: 0 0% 92%;
     --secondary-foreground: 0 0% 0%;
 
-    --muted: 0 0% 96%;
+    --muted: 0 0% 92%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 0 100% 30%;
+    --accent: 0 0% 0%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
     --ring: 0 0% 0%;
 
     --radius: 0rem;
@@ -49,28 +49,20 @@
   .dark {
     --background: 0 0% 3%;
     --foreground: 0 0% 98%;
-
     --card: 0 0% 5%;
     --card-foreground: 0 0% 98%;
-
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 98%;
-
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 3%;
-
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 98%;
-
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 64%;
-
-    --accent: 0 100% 30%;
-    --accent-foreground: 0 0% 100%;
-
+    --accent: 0 0% 98%;
+    --accent-foreground: 0 0% 3%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 0 0% 18%;
     --input: 0 0% 18%;
     --ring: 0 0% 83%;
@@ -83,29 +75,29 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
   }
 
   ::selection {
-    background-color: hsl(0 100% 30%);
+    background-color: hsl(0 0% 0%);
+    color: white;
+  }
+}
+
+@layer components {
+  .header-blend {
+    mix-blend-mode: difference;
     color: white;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: 'Bebas Neue', sans-serif;
-  }
-
-  .font-body {
-    font-family: 'Inter', sans-serif;
-  }
-
   .tracking-fashion {
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
   }
 
   .tracking-wide-fashion {
-    letter-spacing: 0.3em;
+    letter-spacing: 0.15em;
   }
 }
