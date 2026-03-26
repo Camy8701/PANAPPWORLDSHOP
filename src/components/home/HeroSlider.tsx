@@ -47,7 +47,10 @@ const HeroSlider = ({ products }: HeroSliderProps) => {
   }, [current]);
 
   const slide = heroSlides[current];
-  const product = products.find((p) => p.id === slide.productId);
+  // Match by slug when DB products have UUIDs, fall back to id match, then index
+  const product = products.find((p) => p.slug === slide.productId) 
+    || products.find((p) => p.id === slide.productId) 
+    || products[current % products.length];
 
   return (
     <section
