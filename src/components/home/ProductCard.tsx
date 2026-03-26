@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Product } from "@/types";
 import { useState } from "react";
+import { formatPrice } from "@/lib/formatPrice";
 
 interface ProductCardProps {
   product: Product;
