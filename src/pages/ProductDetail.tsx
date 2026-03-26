@@ -306,9 +306,9 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
                     style={{ display: "block" }}
                   />
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
 
           {/* Thumbnail strip — sticky at bottom */}
           {allImages.length > 1 && (
