@@ -19,14 +19,14 @@ const Header = ({ cartCount, onCartClick, blendMode = false }: HeaderProps) => {
         }`}
       >
         {/* Left: Brand */}
-        <Link to="/" className="font-display text-2xl tracking-fashion leading-none">
+        <Link to="/" className="font-display text-2xl tracking-fashion leading-none md:block hidden">
           PANAPP<br />WORLD
         </Link>
 
         {/* Center: Logo */}
         <Link
           to="/"
-          className="absolute left-1/2 -translate-x-1/2 font-display text-3xl tracking-wide-fashion"
+          className="font-display text-xl md:text-3xl tracking-wide-fashion md:absolute md:left-1/2 md:-translate-x-1/2"
         >
           PANAPPWORLD
         </Link>
