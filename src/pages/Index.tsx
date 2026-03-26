@@ -1,12 +1,14 @@
 import HeroSlider from "@/components/home/HeroSlider";
 import ProductGrid from "@/components/home/ProductGrid";
-import { products } from "@/data/placeholder";
+import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
+  const { data: products = [], isLoading } = useProducts();
+
   return (
     <main>
-      <HeroSlider />
-      <ProductGrid products={products} />
+      <HeroSlider products={products} />
+      {isLoading ? null : <ProductGrid products={products} />}
     </main>
   );
 };
