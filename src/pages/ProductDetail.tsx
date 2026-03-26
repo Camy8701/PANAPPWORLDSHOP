@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { products } from "@/data/placeholder";
+import { useProducts, useProduct } from "@/hooks/useProducts";
 import ProductGrid from "@/components/home/ProductGrid";
 
 interface ProductDetailProps {
