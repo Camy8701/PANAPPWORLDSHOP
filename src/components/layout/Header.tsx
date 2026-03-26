@@ -43,7 +43,7 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
           <Link
             to="/"
             className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-            style={{ top: "-182px" }}
+            style={{ top: "-240px" }}
           >
             <img
               src="/panapp-logo.png"
