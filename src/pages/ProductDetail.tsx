@@ -232,7 +232,7 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
   const allImages = product.images;
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
-  const related = products.filter((p) => p.id !== product.id).slice(0, 4);
+  const related = allProducts.filter((p) => p.id !== product.id).slice(0, 4);
 
   return (
     <main
