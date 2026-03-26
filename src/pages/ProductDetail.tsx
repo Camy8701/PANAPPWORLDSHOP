@@ -131,7 +131,7 @@ function useImageScroller(imageCount: number) {
     return () => cancelAnimationFrame(rafId.current);
   }, [animate]);
 
-  // Wheel handler — prevent page scroll, drive image transforms
+  // Wheel handler — prevent page scroll only when hovering center column
   const onWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY;
