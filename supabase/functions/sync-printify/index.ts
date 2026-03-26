@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     let allProducts: any[] = [];
     while (true) {
       const res = await fetch(
-        `https://api.printify.com/v1/shops/${SHOP_ID}/products.json?page=${page}&limit=100`,
+        `https://api.printify.com/v1/shops/${SHOP_ID}/products.json?page=${page}&limit=50`,
         { headers: { Authorization: `Bearer ${PRINTIFY_TOKEN}` } }
       );
       if (!res.ok) {
