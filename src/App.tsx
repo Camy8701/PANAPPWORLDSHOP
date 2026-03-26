@@ -21,6 +21,7 @@ import Admin from "./pages/Admin";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ShippingReturns from "./pages/ShippingReturns";
 import TermsOfService from "./pages/TermsOfService";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
