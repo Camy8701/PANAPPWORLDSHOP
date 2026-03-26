@@ -3,22 +3,19 @@ import ProductGrid from "@/components/home/ProductGrid";
 import { useProducts } from "@/hooks/useProducts";
 import { useCollections } from "@/hooks/useCollections";
 
-type SortOption = "newest" | "oldest" | "price-asc" | "price-desc" | "name-az" | "name-za";
+type SortOption = "recommended" | "newest" | "price-asc" | "price-desc";
 
 const SORT_LABELS: Record<SortOption, string> = {
-  newest: "Newest",
-  oldest: "Oldest",
-  "price-asc": "Price: Low → High",
-  "price-desc": "Price: High → Low",
-  "name-az": "A → Z",
-  "name-za": "Z → A",
+  recommended: "Recommended",
+  newest: "Newest arrivals",
+  "price-asc": "Price: low to high",
+  "price-desc": "Price: high to low",
 };
 
 const Collection = () => {
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
-  const [sort, setSort] = useState<SortOption>("newest");
+  const [sort, setSort] = useState<SortOption>("recommended");
   const [sortOpen, setSortOpen] = useState(false);
-  const [inStockOnly, setInStockOnly] = useState(false);
   const { data: products = [] } = useProducts();
   const { data: collections = [] } = useCollections();
 
@@ -27,122 +24,123 @@ const Collection = () => {
       ? products.filter((p) => p.collection_id === activeCollection)
       : [...products];
 
-    if (inStockOnly) list = list.filter((p) => p.in_stock);
-
     list.sort((a, b) => {
       switch (sort) {
         case "newest":
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        case "oldest":
-          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         case "price-asc":
           return a.price - b.price;
         case "price-desc":
           return b.price - a.price;
-        case "name-az":
-          return a.name.localeCompare(b.name);
-        case "name-za":
-          return b.name.localeCompare(a.name);
+        case "recommended":
         default:
           return 0;
       }
     });
 
     return list;
-  }, [products, activeCollection, sort, inStockOnly]);
+  }, [products, activeCollection, sort]);
+
+  const activeLabel = activeCollection
+    ? collections.find((c) => c.id === activeCollection)?.name ?? "All products"
+    : "All products";
 
   return (
-    <main style={{ paddingTop: "16.4rem" }}>
-      {/* Collection filter tabs */}
-      <div className="flex items-center justify-center gap-3 px-6 mb-4 flex-wrap">
-        <button
-          onClick={() => setActiveCollection(null)}
-          className={`text-[10px] font-semibold uppercase tracking-fashion transition-opacity ${
-            !activeCollection ? "opacity-100" : "opacity-40 hover:opacity-70"
-          }`}
-        >
-          All
-        </button>
-        {collections
-          .filter((c) => c.slug !== "all")
-          .map((col) => (
-            <span key={col.id} className="flex items-center gap-3">
-              <span className="text-[6px] opacity-30">&#9670;</span>
+    <main style={{ paddingTop: "6rem" }}>
+      {/* Category tabs - matching screenshot style */}
+      <div className="border-b border-border">
+        <div className="flex items-center px-6 gap-8">
+          <button
+            onClick={() => setActiveCollection(null)}
+            className={`py-3 text-sm font-medium transition-colors relative ${
+              !activeCollection
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            All products
+            {!activeCollection && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground" />
+            )}
+          </button>
+          {collections
+            .filter((c) => c.slug !== "all")
+            .map((col) => (
               <button
+                key={col.id}
                 onClick={() => setActiveCollection(col.id)}
-                className={`text-[10px] font-semibold uppercase tracking-fashion transition-opacity ${
-                  activeCollection === col.id ? "opacity-100" : "opacity-40 hover:opacity-70"
+                className={`py-3 text-sm font-medium transition-colors relative whitespace-nowrap ${
+                  activeCollection === col.id
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {col.name}
+                {activeCollection === col.id && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-foreground" />
+                )}
               </button>
-            </span>
-          ))}
-      </div>
+            ))}
 
-      {/* Sort + Filter bar */}
-      <div className="flex items-center justify-between px-6 mb-6">
-        {/* In-stock toggle */}
-        <button
-          onClick={() => setInStockOnly(!inStockOnly)}
-          className={`text-[9px] uppercase tracking-fashion transition-opacity ${
-            inStockOnly
-              ? "opacity-100 border-b border-foreground"
-              : "opacity-40 hover:opacity-70"
-          }`}
-        >
-          In Stock Only
-        </button>
-
-        {/* Sort dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setSortOpen(!sortOpen)}
-            className="text-[9px] uppercase tracking-fashion opacity-60 hover:opacity-100 transition-opacity flex items-center gap-1"
-          >
-            Sort: {SORT_LABELS[sort]}
-            <svg
-              width="8"
-              height="5"
-              viewBox="0 0 8 5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              className={`transition-transform ${sortOpen ? "rotate-180" : ""}`}
-            >
-              <path d="M1 1l3 3 3-3" />
-            </svg>
-          </button>
-
-          {sortOpen && (
-            <>
-              <div className="fixed inset-0 z-30" onClick={() => setSortOpen(false)} />
-              <div className="absolute right-0 top-full mt-1 z-40 bg-background border border-border shadow-lg min-w-[160px]">
-                {(Object.keys(SORT_LABELS) as SortOption[]).map((key) => (
-                  <button
-                    key={key}
-                    onClick={() => {
-                      setSort(key);
-                      setSortOpen(false);
-                    }}
-                    className={`block w-full text-left px-4 py-2 text-[9px] uppercase tracking-fashion transition-colors hover:bg-muted ${
-                      sort === key ? "opacity-100 font-semibold" : "opacity-60"
-                    }`}
-                  >
-                    {SORT_LABELS[key]}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
+          {/* Cart icon spacer - pushes to the right like screenshot */}
+          <div className="flex-1" />
         </div>
       </div>
 
-      {/* Results count */}
-      <div className="px-6 mb-4">
-        <span className="text-[9px] uppercase tracking-fashion opacity-40">
-          {result.length} {result.length === 1 ? "product" : "products"}
-        </span>
+      {/* Title + count + sort */}
+      <div className="px-6 pt-8 pb-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">{activeLabel}</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {result.length} {result.length === 1 ? "item" : "items"}
+            </p>
+          </div>
+
+          {/* Sort dropdown */}
+          <div className="relative flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Sort by:</span>
+            <button
+              onClick={() => setSortOpen(!sortOpen)}
+              className="text-sm font-medium text-foreground flex items-center gap-1 border border-border rounded px-3 py-1.5 min-w-[160px] justify-between"
+            >
+              {SORT_LABELS[sort]}
+              <svg
+                width="10"
+                height="6"
+                viewBox="0 0 10 6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className={`transition-transform ${sortOpen ? "rotate-180" : ""}`}
+              >
+                <path d="M1 1l4 4 4-4" />
+              </svg>
+            </button>
+
+            {sortOpen && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setSortOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 z-40 bg-background border border-border rounded shadow-lg min-w-[180px]">
+                  {(Object.keys(SORT_LABELS) as SortOption[]).map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        setSort(key);
+                        setSortOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-muted ${
+                        sort === key ? "font-semibold text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      {SORT_LABELS[key]}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </div>
 
       <ProductGrid products={result} />
