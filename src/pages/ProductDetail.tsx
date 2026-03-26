@@ -221,6 +221,10 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     };
   }, []);
 
+  if (productLoading) {
+    return <main className="pt-24 px-6 text-center" />;
+  }
+
   if (!product) {
     return (
       <main className="pt-24 px-6 text-center">
