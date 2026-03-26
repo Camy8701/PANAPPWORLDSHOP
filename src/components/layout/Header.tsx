@@ -76,6 +76,12 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
               </Link>
               {user ? (
                 <>
+                  <Link
+                    to="/account"
+                    className="text-[10px] font-semibold uppercase tracking-fashion leading-relaxed"
+                  >
+                    Account
+                  </Link>
                   {isAdmin && (
                     <Link
                       to="/admin"
