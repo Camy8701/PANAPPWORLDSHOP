@@ -24,7 +24,7 @@ const AppContent = () => {
 
   return (
     <>
-      <Header cartCount={cart.count} onCartClick={() => cart.setIsOpen(true)} blendMode />
+      <Header cartCount={cart.count} onCartClick={() => cart.setIsOpen(true)} />
       <CartSidebar
         isOpen={cart.isOpen}
         onClose={() => cart.setIsOpen(false)}
