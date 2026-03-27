@@ -47,16 +47,29 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Build line items from cart
+    // Build line items from cart — include product_id and size in metadata
     const lineItems = items.map((item: any) => ({
       price_data: {
         currency: "eur",
         product_data: {
           name: item.product_name,
           ...(item.size ? { description: `Size: ${item.size}` } : {}),
+          metadata: {
+            product_id: item.product_id || "",
+            size: item.size || "",
+          },
         },
         unit_amount: Math.round(item.price * 100),
       },
+      quantity: item.quantity,
+    }));
+
+    // Encode item-level metadata as JSON in session metadata
+    const itemsMeta = items.map((item: any) => ({
+      product_id: item.product_id || "",
+      product_name: item.product_name || "",
+      size: item.size || "",
+      price: item.price,
       quantity: item.quantity,
     }));
 
@@ -76,6 +89,7 @@ Deno.serve(async (req) => {
         shipping_postal: shippingInfo?.postal_code || "",
         shipping_country: shippingInfo?.country || "",
         shipping_email: shippingInfo?.email || "",
+        items_json: JSON.stringify(itemsMeta),
       },
     });
 

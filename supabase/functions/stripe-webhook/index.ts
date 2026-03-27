@@ -31,7 +31,6 @@ Deno.serve(async (req) => {
     if (webhookSecret && signature) {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } else {
-      // Fallback: parse event directly (for testing without webhook signing)
       event = JSON.parse(body);
     }
 
@@ -61,18 +60,22 @@ Deno.serve(async (req) => {
         throw orderError;
       }
 
-      // Get line items from the session
-      const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+      // Parse items from metadata (contains actual product IDs)
+      let itemsMeta: any[] = [];
+      try {
+        itemsMeta = JSON.parse(metadata.items_json || "[]");
+      } catch {
+        console.error("Failed to parse items_json from metadata");
+      }
 
-      // Insert order items
-      if (lineItems.data.length > 0) {
-        const orderItems = lineItems.data.map((item) => ({
+      if (itemsMeta.length > 0) {
+        const orderItems = itemsMeta.map((item: any) => ({
           order_id: order.id,
-          product_id: order.id, // placeholder since Stripe doesn't have our product IDs
-          product_name: item.description || "Unknown product",
-          price: (item.amount_total || 0) / 100,
+          product_id: item.product_id,
+          product_name: item.product_name || "Unknown product",
+          price: item.price,
           quantity: item.quantity || 1,
-          size: "", // size info is in product description
+          size: item.size || "",
         }));
 
         const { error: itemsError } = await supabaseClient
@@ -81,6 +84,27 @@ Deno.serve(async (req) => {
 
         if (itemsError) {
           console.error("Failed to insert order items:", itemsError);
+        }
+      } else {
+        // Fallback: use Stripe line items if no metadata
+        const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+        if (lineItems.data.length > 0) {
+          const orderItems = lineItems.data.map((item) => ({
+            order_id: order.id,
+            product_id: order.id,
+            product_name: item.description || "Unknown product",
+            price: (item.amount_total || 0) / 100,
+            quantity: item.quantity || 1,
+            size: "",
+          }));
+
+          const { error: itemsError } = await supabaseClient
+            .from("order_items")
+            .insert(orderItems);
+
+          if (itemsError) {
+            console.error("Failed to insert order items:", itemsError);
+          }
         }
       }
 
