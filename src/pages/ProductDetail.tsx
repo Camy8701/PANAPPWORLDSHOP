@@ -294,11 +294,12 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
                 }}
               >
                 <div className="w-full h-full">
-                  <img
+        <img
                     src={img}
                     alt={`${product.name} view ${i + 1}`}
                     className="w-full h-full object-cover object-center"
                     style={{ display: "block" }}
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
                 </div>
               </div>

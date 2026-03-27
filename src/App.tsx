@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartSidebar from "@/components/layout/CartSidebar";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { useCart } from "@/hooks/useCart";
 import { AuthProvider } from "@/hooks/useAuth";
 import { useEffect } from "react";
@@ -37,11 +38,6 @@ const ScrollToTop = () => {
 const AppContent = () => {
   const cart = useCart();
 
-  const clearCart = () => {
-    // Clear all items after order
-    cart.items.forEach((item) => cart.removeItem(item.id));
-  };
-
   return (
     <>
       <ScrollToTop />
@@ -54,21 +50,23 @@ const AppContent = () => {
         onRemove={cart.removeItem}
         onUpdateQuantity={cart.updateQuantity}
       />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/collection" element={<Collection />} />
-        <Route path="/product/:slug" element={<ProductDetail onAddToCart={cart.addItem} />} />
-        <Route path="/lookbook" element={<Lookbook />} />
-        <Route path="/checkout" element={<Checkout items={cart.items} total={cart.total} onOrderPlaced={clearCart} />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/shipping-and-returns" element={<ShippingReturns />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/collection" element={<Collection />} />
+          <Route path="/product/:slug" element={<ProductDetail onAddToCart={cart.addItem} />} />
+          <Route path="/lookbook" element={<Lookbook />} />
+          <Route path="/checkout" element={<Checkout items={cart.items} total={cart.total} onOrderPlaced={cart.clearCart} />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/shipping-and-returns" element={<ShippingReturns />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ErrorBoundary>
       <Footer />
     </>
   );
