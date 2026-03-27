@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { formatPrice } from "@/lib/formatPrice";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCollections } from "@/hooks/useCollections";
 import { toast } from "sonner";
+import { Search } from "lucide-react";
 
 interface ProductRow {
   id: string;
@@ -29,6 +30,8 @@ interface OrderRow {
   created_at: string;
 }
 
+const PAGE_SIZE = 10;
+
 const Admin = () => {
   const { user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
@@ -39,6 +42,16 @@ const Admin = () => {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [editingProduct, setEditingProduct] = useState<ProductRow | null>(null);
   const [showForm, setShowForm] = useState(false);
+
+  // Search & filter
+  const [productSearch, setProductSearch] = useState("");
+  const [productStockFilter, setProductStockFilter] = useState<"all" | "in_stock" | "out_of_stock">("all");
+  const [orderSearch, setOrderSearch] = useState("");
+  const [orderStatusFilter, setOrderStatusFilter] = useState<string>("all");
+
+  // Pagination
+  const [productPage, setProductPage] = useState(1);
+  const [orderPage, setOrderPage] = useState(1);
 
   // Form state
   const [form, setForm] = useState({
@@ -81,6 +94,39 @@ const Admin = () => {
       .order("created_at", { ascending: false });
     if (data) setOrders(data as OrderRow[]);
   };
+
+  // Filtered & paginated products
+  const filteredProducts = useMemo(() => {
+    let list = products;
+    if (productSearch) {
+      const q = productSearch.toLowerCase();
+      list = list.filter((p) => p.name.toLowerCase().includes(q) || p.slug.toLowerCase().includes(q));
+    }
+    if (productStockFilter === "in_stock") list = list.filter((p) => p.in_stock);
+    if (productStockFilter === "out_of_stock") list = list.filter((p) => !p.in_stock);
+    return list;
+  }, [products, productSearch, productStockFilter]);
+
+  const productPages = Math.max(1, Math.ceil(filteredProducts.length / PAGE_SIZE));
+  const paginatedProducts = filteredProducts.slice((productPage - 1) * PAGE_SIZE, productPage * PAGE_SIZE);
+
+  // Filtered & paginated orders
+  const filteredOrders = useMemo(() => {
+    let list = orders;
+    if (orderSearch) {
+      const q = orderSearch.toLowerCase();
+      list = list.filter((o) => o.full_name.toLowerCase().includes(q) || o.email.toLowerCase().includes(q));
+    }
+    if (orderStatusFilter !== "all") list = list.filter((o) => o.status === orderStatusFilter);
+    return list;
+  }, [orders, orderSearch, orderStatusFilter]);
+
+  const orderPages = Math.max(1, Math.ceil(filteredOrders.length / PAGE_SIZE));
+  const paginatedOrders = filteredOrders.slice((orderPage - 1) * PAGE_SIZE, orderPage * PAGE_SIZE);
+
+  // Reset page when filters change
+  useEffect(() => { setProductPage(1); }, [productSearch, productStockFilter]);
+  useEffect(() => { setOrderPage(1); }, [orderSearch, orderStatusFilter]);
 
   const openEdit = (p: ProductRow) => {
     setEditingProduct(p);
@@ -176,6 +222,52 @@ const Admin = () => {
   if (loading) return <main className="pt-28 px-6 text-center" />;
   if (!isAdmin) return null;
 
+  const PaginationBar = ({ page, totalPages, onPageChange }: { page: number; totalPages: number; onPageChange: (p: number) => void }) => {
+    if (totalPages <= 1) return null;
+    return (
+      <div className="flex items-center justify-center gap-2 mt-6">
+        <button
+          onClick={() => onPageChange(page - 1)}
+          disabled={page <= 1}
+          className="px-3 py-1 text-[10px] uppercase tracking-fashion border border-border disabled:opacity-30 hover:bg-secondary transition-colors"
+        >
+          Prev
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <button
+            key={p}
+            onClick={() => onPageChange(p)}
+            className={`px-3 py-1 text-[10px] uppercase tracking-fashion border transition-colors ${
+              p === page ? "bg-foreground text-background border-foreground" : "border-border hover:bg-secondary"
+            }`}
+          >
+            {p}
+          </button>
+        ))}
+        <button
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= totalPages}
+          className="px-3 py-1 text-[10px] uppercase tracking-fashion border border-border disabled:opacity-30 hover:bg-secondary transition-colors"
+        >
+          Next
+        </button>
+      </div>
+    );
+  };
+
+  const SearchInput = ({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) => (
+    <div className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="w-full pl-9 pr-3 py-2 border border-border bg-transparent text-sm focus:outline-none focus:border-foreground transition-colors"
+      />
+    </div>
+  );
+
   return (
     <main className="pt-28 px-6 max-w-6xl mx-auto pb-20">
       <h1 className="font-display text-4xl tracking-wide-fashion mb-8">ADMIN</h1>
@@ -198,7 +290,7 @@ const Admin = () => {
       {/* Products Tab */}
       {tab === "products" && (
         <div>
-          <div className="flex gap-3 mb-6">
+          <div className="flex flex-wrap gap-3 mb-6">
             <button
               onClick={openNew}
               className="px-4 py-2 text-[10px] font-semibold uppercase tracking-fashion bg-foreground text-background hover:opacity-80 transition-opacity"
@@ -225,6 +317,26 @@ const Admin = () => {
               ↻ Sync from Printify
             </button>
           </div>
+
+          {/* Search & filter bar */}
+          <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex-1 min-w-[200px]">
+              <SearchInput value={productSearch} onChange={setProductSearch} placeholder="Search products..." />
+            </div>
+            <select
+              value={productStockFilter}
+              onChange={(e) => setProductStockFilter(e.target.value as any)}
+              className="text-[10px] uppercase tracking-fashion border border-border bg-transparent px-3 py-2"
+            >
+              <option value="all">All Stock</option>
+              <option value="in_stock">In Stock</option>
+              <option value="out_of_stock">Out of Stock</option>
+            </select>
+          </div>
+
+          <p className="text-[10px] text-muted-foreground uppercase tracking-fashion mb-3">
+            {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+          </p>
 
           {showForm && (
             <div className="border border-border p-6 mb-6 space-y-4">
@@ -307,7 +419,7 @@ const Admin = () => {
           )}
 
           <div className="space-y-2">
-            {products.map((p) => (
+            {paginatedProducts.map((p) => (
               <div key={p.id} className="flex items-center justify-between border border-border px-4 py-3">
                 <div>
                   <span className="text-sm font-semibold">{p.name}</span>
@@ -332,37 +444,64 @@ const Admin = () => {
               </div>
             ))}
           </div>
+
+          <PaginationBar page={productPage} totalPages={productPages} onPageChange={setProductPage} />
         </div>
       )}
 
       {/* Orders Tab */}
       {tab === "orders" && (
-        <div className="space-y-2">
-          {orders.length === 0 && (
-            <p className="text-[11px] text-muted-foreground uppercase tracking-fashion">No orders yet</p>
-          )}
-          {orders.map((o) => (
-            <div key={o.id} className="flex items-center justify-between border border-border px-4 py-3">
-              <div>
-                <span className="text-sm font-semibold">{o.full_name}</span>
-                <span className="ml-2 text-[10px] text-muted-foreground">{o.email}</span>
-                <span className="ml-3 text-[10px] text-muted-foreground uppercase tracking-fashion">
-                  {formatPrice(o.total)} · {new Date(o.created_at).toLocaleDateString()}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <select
-                  value={o.status}
-                  onChange={(e) => updateOrderStatus(o.id, e.target.value)}
-                  className="text-[10px] uppercase tracking-fashion border border-border bg-transparent px-2 py-1"
-                >
-                  {["pending", "processing", "shipped", "delivered", "cancelled"].map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </div>
+        <div>
+          {/* Search & filter bar */}
+          <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex-1 min-w-[200px]">
+              <SearchInput value={orderSearch} onChange={setOrderSearch} placeholder="Search by name or email..." />
             </div>
-          ))}
+            <select
+              value={orderStatusFilter}
+              onChange={(e) => setOrderStatusFilter(e.target.value)}
+              className="text-[10px] uppercase tracking-fashion border border-border bg-transparent px-3 py-2"
+            >
+              <option value="all">All Statuses</option>
+              {["pending", "processing", "shipped", "delivered", "cancelled"].map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+
+          <p className="text-[10px] text-muted-foreground uppercase tracking-fashion mb-3">
+            {filteredOrders.length} order{filteredOrders.length !== 1 ? "s" : ""}
+          </p>
+
+          <div className="space-y-2">
+            {paginatedOrders.length === 0 && (
+              <p className="text-[11px] text-muted-foreground uppercase tracking-fashion">No orders found</p>
+            )}
+            {paginatedOrders.map((o) => (
+              <div key={o.id} className="flex items-center justify-between border border-border px-4 py-3">
+                <div>
+                  <span className="text-sm font-semibold">{o.full_name}</span>
+                  <span className="ml-2 text-[10px] text-muted-foreground">{o.email}</span>
+                  <span className="ml-3 text-[10px] text-muted-foreground uppercase tracking-fashion">
+                    {formatPrice(o.total)} · {new Date(o.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={o.status}
+                    onChange={(e) => updateOrderStatus(o.id, e.target.value)}
+                    className="text-[10px] uppercase tracking-fashion border border-border bg-transparent px-2 py-1"
+                  >
+                    {["pending", "processing", "shipped", "delivered", "cancelled"].map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <PaginationBar page={orderPage} totalPages={orderPages} onPageChange={setOrderPage} />
         </div>
       )}
     </main>
