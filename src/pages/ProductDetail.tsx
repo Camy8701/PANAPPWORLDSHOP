@@ -294,11 +294,12 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
                 }}
               >
                 <div className="w-full h-full">
-                  <img
+        <img
                     src={img}
                     alt={`${product.name} view ${i + 1}`}
                     className="w-full h-full object-cover object-center"
                     style={{ display: "block" }}
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
                 </div>
               </div>
@@ -421,10 +422,15 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
         </div>
       </div>
 
-      {/* Related products — only visible on mobile or when scrolling past images */}
-      <div className="mt-16 hidden lg:hidden">
-        <ProductGrid products={related} />
-      </div>
+      {/* Related products */}
+      {related.length > 0 && (
+        <div className="mt-16 lg:mt-24">
+          <h2 className="text-xs font-semibold uppercase tracking-fashion text-center mb-8">
+            You may also like
+          </h2>
+          <ProductGrid products={related} />
+        </div>
+      )}
     </main>
   );
 };

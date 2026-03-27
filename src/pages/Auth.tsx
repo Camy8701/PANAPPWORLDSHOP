@@ -102,7 +102,15 @@ const Auth = () => {
         </button>
       </form>
 
-      <div className="mt-8 text-center">
+      <div className="mt-8 text-center space-y-3">
+        {mode === "login" && (
+          <Link
+            to="/reset-password"
+            className="text-[10px] uppercase tracking-fashion text-muted-foreground hover:text-foreground transition-colors block"
+          >
+            Forgot your password?
+          </Link>
+        )}
         <button
           onClick={() => {
             setMode(mode === "login" ? "signup" : "login");

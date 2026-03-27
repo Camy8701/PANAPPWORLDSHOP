@@ -25,14 +25,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <img
           src={product.images[0]}
           alt={product.name}
+          loading="lazy"
           className="w-full h-full object-cover object-center transition-opacity duration-500"
           style={{ opacity: hovered && product.images[1] ? 0 : 1 }}
         />
-        {/* Hover image */}
         {product.images[1] && (
           <img
             src={product.images[1]}
             alt={product.name}
+            loading="lazy"
             className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500"
             style={{ opacity: hovered ? 1 : 0 }}
           />
