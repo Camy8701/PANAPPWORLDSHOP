@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useProducts, useProduct } from "@/hooks/useProducts";
 import { Product } from "@/types";
 import ProductGrid from "@/components/home/ProductGrid";
+import { malcolmXProduct } from "@/data/placeholder";
 
 interface ProductDetailProps {
   onAddToCart: (product: Product, size: string) => void;
@@ -156,12 +157,16 @@ function useImageScroller(imageCount: number) {
 
 const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
   const { slug } = useParams();
-  const { data: product, isLoading: productLoading } = useProduct(slug);
+  const { data: dbProduct, isLoading: productLoading } = useProduct(slug);
   const { data: allProducts = [] } = useProducts();
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
   const centerRef = useRef<HTMLDivElement>(null);
 
+  // Fallback for Malcolm X product (not in DB)
+  const fallbackProduct = slug === malcolmXProduct.slug ? malcolmXProduct : null;
+  const product = dbProduct ?? fallbackProduct;
+  const isMalcolmProduct = product?.slug === malcolmXProduct.slug;
   const imageCount = product?.images.length || 0;
   const scroller = useImageScroller(imageCount);
 
@@ -235,6 +240,55 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
         transition: "opacity 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)",
       }}
     >
+      {/* === MALCOLM X HERO — full-bleed portrait with overlap fade into product === */}
+      {isMalcolmProduct && (
+        <div className="relative">
+          {/* Full-viewport hero image */}
+          <div
+            className="relative w-full overflow-hidden"
+            style={{ height: "100vh" }}
+          >
+            <img
+              src="/malcolm-x-wallpaper.webp"
+              alt="Malcolm X portrait"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: "60% 15%" }}
+            />
+            {/* Dark overlay for depth */}
+            <div className="absolute inset-0 bg-black/30" />
+
+            {/* Editorial text anchored bottom-left */}
+            <div className="absolute bottom-16 left-6 sm:left-10 lg:left-16 z-10">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/50 mb-3">
+                Panapp Archive Edition
+              </p>
+              <h2
+                className="text-white font-black uppercase leading-[0.88] tracking-[-0.06em]"
+                style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}
+              >
+                Malcolm X<br />Tribute Tee
+              </h2>
+              <p className="mt-4 max-w-md text-[13px] leading-relaxed text-white/60">
+                &ldquo;Education is the passport to the future, for tomorrow belongs to those who prepare for it today.&rdquo;
+              </p>
+            </div>
+          </div>
+
+          {/* Progressive overlap gradient — dark hero fades into the light product bg */}
+          <div
+            className="relative w-full pointer-events-none"
+            style={{ height: "10rem", marginTop: "-10rem", zIndex: 2 }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(to bottom, transparent 0%, hsl(0 0% 95%) 100%)",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* === 3-COLUMN PRODUCT LAYOUT === */}
       <div className="product-layout">
         {/* LEFT COLUMN — Accordion Details */}

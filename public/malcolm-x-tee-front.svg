@@ -1,0 +1,23 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1500" fill="#ECE9E1"/>
+  <g filter="url(#shadow)">
+    <path d="M424 208L490 160H710L776 208L914 276L850 420L774 388V1208H426V388L350 420L286 276L424 208Z" fill="#0B0B0B"/>
+  </g>
+  <path d="M458 196H742L826 248L880 344L816 378L754 338V1184H446V338L384 378L320 344L374 248L458 196Z" fill="#111111"/>
+  <rect x="458" y="390" width="284" height="390" rx="10" fill="#E6E2D7"/>
+  <image href="/malcolm-x-wallpaper.webp" x="474" y="406" width="252" height="358" preserveAspectRatio="xMidYMid slice"/>
+  <rect x="458" y="390" width="284" height="390" rx="10" stroke="#D6D0C1" stroke-width="6"/>
+  <path d="M516 1148H686" stroke="#1C1C1C" stroke-width="12" stroke-linecap="round"/>
+  <defs>
+    <filter id="shadow" x="226" y="120" width="748" height="1176" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="30"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+</svg>

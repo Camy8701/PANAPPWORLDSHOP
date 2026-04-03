@@ -99,6 +99,21 @@ export const products: Product[] = [
   },
 ];
 
+export const malcolmXProduct: Product = {
+  id: "malcolm-x-tribute-tee",
+  name: "MALCOLM X TRIBUTE TEE",
+  slug: "malcolm-x-tribute-tee",
+  description:
+    "A heavyweight black cotton t-shirt featuring a Malcolm X portrait print developed as a statement piece. The fit is relaxed with a structured drape, designed to wear like a collectible graphic staple rather than a basic tee.",
+  price: 95,
+  collection_id: "2",
+  images: [`${CDN}/tree-of-death-front.jpg`, `${CDN}/tree-of-death-back.jpg`],
+  sizes: ["S", "M", "L", "XL"],
+  in_stock: true,
+  featured: false,
+  created_at: "2026-04-03",
+};
+
 export const heroSlides = [
   {
     id: 1,
