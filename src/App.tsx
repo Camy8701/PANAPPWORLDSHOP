@@ -53,6 +53,7 @@ const AppContent = () => {
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/shop" element={<Collection />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/product/:slug" element={<ProductDetail onAddToCart={cart.addItem} />} />
           <Route path="/lookbook" element={<Lookbook />} />

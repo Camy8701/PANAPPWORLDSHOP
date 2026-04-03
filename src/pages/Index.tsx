@@ -1,7 +1,6 @@
 import HeroSlider from "@/components/home/HeroSlider";
-import ProductGrid from "@/components/home/ProductGrid";
-import ProductGridSkeleton from "@/components/home/ProductGridSkeleton";
 import { useProducts } from "@/hooks/useProducts";
+import HeroGallerySection from "@/components/home/HeroGallerySection";
 
 const Index = () => {
   const { data: products = [], isLoading } = useProducts();
@@ -9,7 +8,7 @@ const Index = () => {
   return (
     <main>
       <HeroSlider products={products} />
-      {isLoading ? <ProductGridSkeleton /> : <ProductGrid products={products} />}
+      <HeroGallerySection />
     </main>
   );
 };

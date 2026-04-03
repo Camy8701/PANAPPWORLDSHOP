@@ -159,6 +159,29 @@ const HeroSlider = ({ products }: HeroSliderProps) => {
                 </svg>
               </button>
             </div>
+            <Link to="/shop" className="block">
+              <div
+                className="w-full flex items-center justify-between text-white"
+                style={{
+                  minHeight: "4.4rem",
+                  padding: "0 1.35rem",
+                  background:
+                    "linear-gradient(120deg, rgba(32,32,32,0.96) 0%, rgba(12,12,12,0.98) 55%, rgba(0,0,0,1) 100%)",
+                  border: "1px solid rgba(255,255,255,0.09)",
+                  backdropFilter: "blur(14px)",
+                }}
+              >
+                <span className="text-[13px] font-black uppercase tracking-[0.24em]">
+                  Shop Now
+                </span>
+                <span className="flex items-center gap-0.5">
+                  <span style={{ width: "24px", height: "1px", background: "#fff", display: "inline-block" }} />
+                  <svg width="18" height="14" viewBox="0 0 16 12" fill="none" stroke="currentColor" strokeWidth="1.4">
+                    <path d="M2 6h12M10 1l5 5-5 5" />
+                  </svg>
+                </span>
+              </div>
+            </Link>
           </div>
 
           {/* Mobile card */}
@@ -209,6 +232,26 @@ const HeroSlider = ({ products }: HeroSliderProps) => {
                 </svg>
               </button>
             </div>
+            <Link to="/shop" className="block">
+              <div
+                className="w-full flex items-center justify-between text-white"
+                style={{
+                  minHeight: "3.35rem",
+                  padding: "0 1rem",
+                  background:
+                    "linear-gradient(120deg, rgba(32,32,32,0.96) 0%, rgba(12,12,12,0.98) 55%, rgba(0,0,0,1) 100%)",
+                  border: "1px solid rgba(255,255,255,0.09)",
+                  backdropFilter: "blur(14px)",
+                }}
+              >
+                <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+                  Shop Now
+                </span>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" strokeWidth="1.4">
+                  <path d="M2 6h12M10 1l5 5-5 5" />
+                </svg>
+              </div>
+            </Link>
           </div>
         </div>
       )}
