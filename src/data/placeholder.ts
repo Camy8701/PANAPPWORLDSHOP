@@ -117,8 +117,11 @@ export const malcolmXProduct: Product = {
 export const heroSlides = [
   {
     id: 1,
-    image: `${CDN}/tree-of-death-carousel.jpg`,
+    image: "/hero-african-tribes.png",
     productId: "tree-of-death-knit",
+    objectPosition: "50% 24%",
+    activeTransform: "translateY(0) scale(1.02)",
+    inactiveTransform: "translateY(0) scale(1)",
   },
   {
     id: 2,

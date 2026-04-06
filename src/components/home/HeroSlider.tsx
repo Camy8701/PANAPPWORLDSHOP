@@ -80,9 +80,11 @@ const HeroSlider = ({ products }: HeroSliderProps) => {
             alt={`Slide ${i + 1}`}
             className="w-full h-full object-cover"
             style={{
-              transform: i === current ? "translateY(7%) scale(1.14)" : "translateY(7%) scale(1.08)",
+              transform: i === current
+                ? (s.activeTransform ?? "translateY(7%) scale(1.14)")
+                : (s.inactiveTransform ?? "translateY(7%) scale(1.08)"),
               transition: "transform 6s ease-out",
-              objectPosition: "50% 50%",
+              objectPosition: s.objectPosition ?? "50% 50%",
             }}
           />
         </div>
