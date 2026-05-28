@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { formatPrice } from "@/lib/formatPrice";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useProducts, useProduct } from "@/hooks/useProducts";
@@ -162,6 +162,32 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
   const centerRef = useRef<HTMLDivElement>(null);
+  const sizeSelectorRef = useRef<HTMLDivElement>(null);
+  const [searchParams] = useSearchParams();
+  const [sizePulse, setSizePulse] = useState(false);
+
+  // Honor ?action=add — scroll to size selector on mobile
+  useEffect(() => {
+    if (searchParams.get("action") === "add" && sizeSelectorRef.current) {
+      const t = setTimeout(() => {
+        sizeSelectorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        setSizePulse(true);
+        setTimeout(() => setSizePulse(false), 1500);
+      }, 400);
+      return () => clearTimeout(t);
+    }
+  }, [searchParams, slug]);
+
+  const handleStickyAdd = () => {
+    if (!product?.in_stock) return;
+    if (!selectedSize) {
+      sizeSelectorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setSizePulse(true);
+      setTimeout(() => setSizePulse(false), 1500);
+      return;
+    }
+    onAddToCart(product, selectedSize);
+  };
 
   // Fallback for Malcolm X product (not in DB)
   const fallbackProduct = slug === malcolmXProduct.slug ? malcolmXProduct : null;
@@ -401,7 +427,10 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
               </p>
 
               {/* Size selector */}
-              <div className="flex items-center justify-center gap-3 mt-6 flex-wrap">
+              <div
+                ref={sizeSelectorRef}
+                className={`flex items-center justify-center gap-3 mt-6 flex-wrap transition-all ${sizePulse ? "ring-2 ring-[#990000] ring-offset-4 ring-offset-[hsl(0_0%_95%)] rounded-sm" : ""}`}
+              >
                 {sizes.map((size) => (
                   <button
                     key={size}
@@ -473,6 +502,46 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* === STICKY MOBILE ATC BAR === */}
+      <div
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 backdrop-blur-md"
+        style={{
+          background: "hsla(0, 0%, 97%, 0.95)",
+          paddingBottom: "env(safe-area-inset-bottom)",
+        }}
+      >
+        <div className="flex items-stretch gap-3 px-4 py-3">
+          <div className="flex flex-col justify-center min-w-0">
+            <p
+              className="text-[9px] font-semibold uppercase tracking-fashion text-black/60 truncate"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {product.name}
+            </p>
+            <p className="text-[12px] font-semibold mt-0.5">{formatPrice(product.price)}</p>
+          </div>
+          <button
+            onClick={handleStickyAdd}
+            disabled={!product.in_stock}
+            className="flex-1 text-[10px] font-semibold uppercase tracking-fashion flex items-center justify-center gap-3 transition-all disabled:opacity-50"
+            style={{
+              background: "linear-gradient(90deg, #222, #0d0c0c 50%, #222)",
+              color: "#fff",
+            }}
+          >
+            <SquaredLine />
+            <span>
+              {!product.in_stock
+                ? "Sold Out"
+                : selectedSize
+                ? "Add to Cart"
+                : "Select Size"}
+            </span>
+            <SquaredLine />
+          </button>
         </div>
       </div>
 
