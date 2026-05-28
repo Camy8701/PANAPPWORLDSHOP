@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import SearchOverlay from "./SearchOverlay";
 
 interface HeaderProps {
   cartCount: number;
@@ -10,6 +11,7 @@ interface HeaderProps {
 
 const Header = ({ cartCount, onCartClick }: HeaderProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
 
   return (
@@ -102,14 +104,29 @@ const Header = ({ cartCount, onCartClick }: HeaderProps) => {
               )}
             </nav>
             <button
-              onClick={onCartClick}
-              className="text-[10px] font-semibold uppercase tracking-fashion"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search"
+              className="text-[10px] font-semibold uppercase tracking-fashion flex items-center"
             >
-              Cart ({cartCount})
+              <Search size={14} strokeWidth={2.5} />
+            </button>
+            <button
+              onClick={onCartClick}
+              aria-label={`Cart, ${cartCount} items`}
+              className="relative text-[10px] font-semibold uppercase tracking-fashion"
+            >
+              Cart
+              {cartCount > 0 && (
+                <span className="ml-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-[#990000] text-white text-[9px] font-bold tabular-nums align-middle">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
       </header>
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* Mobile Menu Overlay */}
       {mobileOpen && (
