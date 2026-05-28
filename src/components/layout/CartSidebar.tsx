@@ -1,7 +1,9 @@
-import { X, Minus, Plus } from "lucide-react";
+import { X, Minus, Plus, Truck } from "lucide-react";
 import { formatPrice } from "@/lib/formatPrice";
 import { CartItem } from "@/types";
 import { Link } from "react-router-dom";
+
+const FREE_SHIPPING_THRESHOLD = 100;
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -37,6 +39,33 @@ const CartSidebar = ({
             <X size={18} />
           </button>
         </div>
+
+        {items.length > 0 && (() => {
+          const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
+          const pct = Math.min(100, (total / FREE_SHIPPING_THRESHOLD) * 100);
+          const unlocked = remaining === 0;
+          return (
+            <div className="px-5 pt-4 pb-3 border-b border-border">
+              <div className="flex items-center gap-2 mb-2">
+                <Truck size={12} />
+                <p className="text-[10px] uppercase tracking-fashion font-semibold">
+                  {unlocked
+                    ? "Free EU shipping unlocked"
+                    : `Add ${formatPrice(remaining)} for free shipping`}
+                </p>
+              </div>
+              <div className="h-[3px] w-full bg-secondary overflow-hidden">
+                <div
+                  className="h-full transition-all duration-500"
+                  style={{
+                    width: `${pct}%`,
+                    backgroundColor: unlocked ? "#16a34a" : "#990000",
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
           {items.length === 0 && (
