@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,wght@1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -46,7 +46,22 @@
     --sidebar-ring: 0 0% 0%;
 
     --extra-height: 8.8rem;
+
+    /* PANAPP brand */
+    --pa-ink: 30 10% 5%;
+    --pa-bone: 44 50% 91%;
+    --pa-surface: 60 8% 95%;
+    --pa-red: 6 60% 46%;
+    --pa-gold: 39 73% 55%;
+    --pa-gold-text: 36 80% 30%;
+    --pa-green: 138 47% 33%;
+    --pa-muted: 60 3% 41%;
+    --pa-hairline: 30 10% 5% / 0.12;
   }
+
+  .font-display { font-family: 'Bebas Neue', 'Archivo Black', sans-serif; letter-spacing: 0.02em; }
+  .font-body { font-family: 'Hanken Grotesk', 'Inter', sans-serif; }
+  .font-quote { font-family: 'Fraunces', 'Newsreader', serif; font-style: italic; }
 
   .dark {
     --background: 0 0% 3%;
