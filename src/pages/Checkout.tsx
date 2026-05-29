@@ -62,7 +62,8 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
-  const [guestCheckout, setGuestCheckout] = useState(false);
+  // Guest-first checkout: no gate, sign-in optional
+  const [guestCheckout] = useState(true);
   const [form, setForm] = useState({
     full_name: "",
     email: user?.email ?? "",
