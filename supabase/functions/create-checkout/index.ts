@@ -74,11 +74,18 @@ Deno.serve(async (req) => {
     }));
 
     // Create checkout session
+    // Note: 'card' payment method auto-enables Apple Pay & Google Pay
+    // when the merchant domain is verified in the Stripe Dashboard.
+    // 'link' enables Stripe Link one-click checkout.
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : email,
       line_items: lineItems,
       mode: "payment",
+      payment_method_types: ["card", "link"],
+      allow_promotion_codes: true,
+      billing_address_collection: "auto",
+      phone_number_collection: { enabled: true },
       success_url: `${req.headers.get("origin")}/checkout?success=true`,
       cancel_url: `${req.headers.get("origin")}/checkout?canceled=true`,
       metadata: {
