@@ -70,6 +70,7 @@ const AppContent = () => {
         </Routes>
       </ErrorBoundary>
       <Footer />
+      <NewsletterPopup />
     </>
   );
 };
