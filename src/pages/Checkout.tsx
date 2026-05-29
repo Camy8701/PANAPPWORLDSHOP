@@ -62,7 +62,8 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
-  const [guestCheckout, setGuestCheckout] = useState(false);
+  // Guest-first checkout: no gate, sign-in optional
+  const [guestCheckout] = useState(true);
   const [form, setForm] = useState({
     full_name: "",
     email: user?.email ?? "",
@@ -143,41 +144,26 @@ const Checkout = ({ items, total, onOrderPlaced }: CheckoutProps) => {
     <main className="pt-44 px-6 max-w-3xl mx-auto pb-20">
       <h1 className="font-display text-4xl tracking-wide-fashion mb-12">CHECKOUT</h1>
 
-      {!user && !guestCheckout && (
-        <div className="mb-8 p-6 border border-border text-center space-y-3">
-          <p className="text-[11px] uppercase tracking-fashion text-muted-foreground">
-            Sign in to place your order
+      {!user && (
+        <div className="mb-8 p-4 border border-border/60 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-[10px] uppercase tracking-fashion text-muted-foreground">
+            Checking out as guest
           </p>
           <Link
             to="/auth"
-            className="text-[10px] font-semibold uppercase tracking-fashion underline block"
+            className="text-[10px] font-semibold uppercase tracking-fashion underline"
           >
-            Sign In / Create Account
+            Sign in for faster checkout
           </Link>
-          <div className="border-t border-border pt-3 mt-3">
-            <button
-              onClick={() => setGuestCheckout(true)}
-              className="text-[10px] font-semibold uppercase tracking-fashion text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Or continue as guest
-            </button>
-          </div>
         </div>
       )}
 
-      {guestCheckout && !user && (
-        <div className="mb-6 px-4 py-2 border border-border/50 bg-muted/30 text-center">
-          <p className="text-[9px] uppercase tracking-fashion text-muted-foreground">
-            Checking out as guest •{" "}
-            <button
-              onClick={() => setGuestCheckout(false)}
-              className="underline hover:text-foreground"
-            >
-              Sign in instead
-            </button>
-          </p>
-        </div>
-      )}
+      <div className="mb-8 p-4 border border-border/60 text-center">
+        <p className="text-[10px] uppercase tracking-fashion text-muted-foreground">
+          Apple Pay • Google Pay • Card • Link — available at payment
+        </p>
+      </div>
+
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
