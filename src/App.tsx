@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartSidebar from "@/components/layout/CartSidebar";
+import NewsletterPopup from "@/components/NewsletterPopup";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { useCart } from "@/hooks/useCart";
 import { AuthProvider } from "@/hooks/useAuth";
