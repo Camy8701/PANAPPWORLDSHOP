@@ -285,6 +285,8 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
   const pillar = useMemo<Pillar>(() => (product ? pillarFor(product) : "past"), [product]);
   const FREE_SHIPPING_THRESHOLD_LABEL = "€100";
+  // Bundles are an opt-in merchandising lever. Off by default; flip per-product later via DB flag.
+  const bundleEnabled = false;
 
   if (isLoading) return <main className="pt-40 px-6 text-center" />;
   if (!product) {
