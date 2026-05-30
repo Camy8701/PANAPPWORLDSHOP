@@ -285,6 +285,8 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
   const pillar = useMemo<Pillar>(() => (product ? pillarFor(product) : "past"), [product]);
   const FREE_SHIPPING_THRESHOLD_LABEL = "€100";
+  // Bundles are an opt-in merchandising lever. Off by default; flip per-product later via DB flag.
+  const bundleEnabled = false;
 
   if (isLoading) return <main className="pt-40 px-6 text-center" />;
   if (!product) {
@@ -389,42 +391,45 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
             </p>
           </div>
 
-          {/* Bundle tiers */}
-          <div className="grid grid-cols-3 gap-2 pt-1">
-            {bundles.map((b) => {
-              const active = selectedTier === b.qty;
-              return (
-                <button
-                  key={b.qty}
-                  onClick={() => setSelectedTier(b.qty)}
-                  className="relative text-left p-3 transition"
-                  style={{
-                    border: `1px solid ${active ? "hsl(var(--pa-ink))" : "hsl(var(--pa-hairline))"}`,
-                    background: active ? "hsl(var(--pa-ink) / 0.04)" : "transparent",
-                  }}
-                >
-                  {b.best && (
-                    <span
-                      className="absolute -top-2 left-2 text-[9px] px-1.5 py-0.5 font-display uppercase"
-                      style={{ background: "hsl(var(--pa-green))", color: "white", letterSpacing: "0.12em" }}
-                    >
-                      Best value
-                    </span>
-                  )}
-                  <div className="font-display text-[18px] leading-none">Buy {b.qty}</div>
-                  <div className="text-[11px] mt-1" style={{ color: "hsl(var(--pa-muted))" }}>{b.perk || "Single piece"}</div>
-                  <div className="text-[12px] mt-1 font-medium">{formatPrice(tierPrice(b.qty))}</div>
-                </button>
-              );
-            })}
-          </div>
+          {/* Bundle tiers (opt-in) */}
+          {bundleEnabled && (
+            <div className="grid grid-cols-3 gap-2 pt-1">
+              {bundles.map((b) => {
+                const active = selectedTier === b.qty;
+                return (
+                  <button
+                    key={b.qty}
+                    onClick={() => setSelectedTier(b.qty)}
+                    className="relative text-left p-3 transition"
+                    style={{
+                      border: `1px solid ${active ? "hsl(var(--pa-ink))" : "hsl(var(--pa-hairline))"}`,
+                      background: active ? "hsl(var(--pa-ink) / 0.04)" : "transparent",
+                    }}
+                  >
+                    {b.best && (
+                      <span
+                        className="absolute -top-2 left-2 text-[9px] px-1.5 py-0.5 font-display uppercase"
+                        style={{ background: "hsl(var(--pa-green))", color: "white", letterSpacing: "0.12em" }}
+                      >
+                        Best value
+                      </span>
+                    )}
+                    <div className="font-display text-[18px] leading-none">Buy {b.qty}</div>
+                    <div className="text-[11px] mt-1" style={{ color: "hsl(var(--pa-muted))" }}>{b.perk || "Single piece"}</div>
+                    <div className="text-[12px] mt-1 font-medium">{formatPrice(tierPrice(b.qty))}</div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* Primary CTA */}
           <div ref={inlineCtaRef} className="pt-1">
             <button
               onClick={tryAdd}
-              disabled={!product.in_stock}
-              className="w-full h-12 font-display text-[14px] uppercase tracking-[0.16em] transition disabled:opacity-60"
+              disabled={!product.in_stock || !selectedSize}
+              aria-disabled={!product.in_stock || !selectedSize}
+              className="w-full h-12 font-display text-[14px] uppercase tracking-[0.16em] transition disabled:cursor-not-allowed disabled:opacity-50"
               style={{ background: "hsl(var(--pa-ink))", color: "hsl(var(--pa-bone))" }}
             >
               {ctaLabel}
@@ -537,8 +542,9 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
           </div>
           <button
             onClick={tryAdd}
-            disabled={!product.in_stock}
-            className="flex-1 font-display text-[13px] uppercase tracking-[0.16em] disabled:opacity-60"
+            disabled={!product.in_stock || !selectedSize}
+            aria-disabled={!product.in_stock || !selectedSize}
+            className="flex-1 font-display text-[13px] uppercase tracking-[0.16em] disabled:cursor-not-allowed disabled:opacity-50"
             style={{ background: "hsl(var(--pa-ink))", color: "hsl(var(--pa-bone))" }}
           >
             {ctaLabel}
