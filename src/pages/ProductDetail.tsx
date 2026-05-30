@@ -542,8 +542,9 @@ const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
           </div>
           <button
             onClick={tryAdd}
-            disabled={!product.in_stock}
-            className="flex-1 font-display text-[13px] uppercase tracking-[0.16em] disabled:opacity-60"
+            disabled={!product.in_stock || !selectedSize}
+            aria-disabled={!product.in_stock || !selectedSize}
+            className="flex-1 font-display text-[13px] uppercase tracking-[0.16em] disabled:cursor-not-allowed disabled:opacity-50"
             style={{ background: "hsl(var(--pa-ink))", color: "hsl(var(--pa-bone))" }}
           >
             {ctaLabel}
